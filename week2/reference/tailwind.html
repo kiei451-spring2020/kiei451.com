@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KIEI-451: Tailwind Introduction</title>
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism.min.css" rel="stylesheet" type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/line-numbers/prism-line-numbers.min.css"
+    rel="stylesheet" type="text/css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/prism.min.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+</head>
+<body>
+  <div class="mx-16 my-8">
+    <h1 class="text-lg uppercase text-gray-500 font-bold">KIEI-451: Introduction to Software Development</h1>
+    <h2 class="text-2xl font-bold">Tailwind CSS Introduction</h2>
+    <div class="mt-4 space-y-4">
+      <p>HTML, all by itself, is meant to describe the content and structure of web page. Cascading Style Sheets (CSS) is the web browser's standard presentation language – it defines what the page looks like – e.g. the layout of the page, the colors, fonts, sizes of the different elements, etc. Without CSS, websites look like they are straight out of the 20th century. For someone who's just getting started with web development, however, CSS can be cumbersome and time-consuming to learn. Strange syntax, browser idiosyncrasies, and the need to memorize many rules (and exceptions to the rules!) can make CSS quite intimidating, and hard to master.</p>
+      <p>Enter <a href="https://tailwindcss.com/" class="text-pink-500 underline" target="_blank">Tailwind</a>. Tailwind is a <strong>CSS framework</strong>, that is, an open-source utility that helps web developers add look-and-feel to their HTML pages without worrying about fighting with actual CSS. And while it certainly would help to learn CSS at some point, should you want to take your web design skills further, Tailwind allows us to get to a reasonable level of design quickly and without too much wrangling with the low-level concepts of CSS.</p>
+      <p>But first, we do need to have a high-level understanding of the types of styling we can apply to our HTML, and how Tailwind helps us execute that styling. This is a reference for the basics; there are many more things you can do with Tailwind that are not outlined here – if you're interested in diving deeper, have a look at the <a href="https://tailwindcss.com/" class="text-pink-500 underline" target="_blank">official Tailwind documentation</a>. Also – this page is created with Tailwind! Feel free to experiment with changing things, to see what happens. We can always restore the original from our course GitHub page.</p>
+      <h3 class="text-xl font-bold">Installing Tailwind</h3>
+      <p>Getting Tailwind is quite simple. We add this one line of code, somewhere within the <span class="bg-orange-100 text-red-400 font-mono p-1">head</span> element of any HTML document.</p>
+      <pre class="m-0 p-0">
+        <code class="language-html">
+  &lt;link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" type="text/css"&gt;</code>
+      </pre>
+      <p>This imports the Tailwind CSS library (from the Internet) into our web page, and it's ready to use.</p>
+      <h3 class="text-xl font-bold">The Basics</h3>
+      <p>We'll notice that, once we've added the one-liner above to our web page, any formatting we expect the browser to make (such as making an <span class="bg-orange-100 text-red-400 font-mono p-1">h1</span> a big and bold headline, or a link blue and underlined, for example) will be removed. Tailwind makes no assumptions about how we want our elements to look, and to ensure that we always start with the same baseline, regardless of the browser or device we're using, all CSS styling (including the ones that come standard with the browser) are reset when Tailwind is added.</p>
+      <p>Tailwind works by providing a set of <strong>CSS classes</strong> that we can apply to any element on our HTML pages. A CSS class is simply an attribute that we can add to any HTML element, like this:</p>
+      <pre class="m-0 p-0">
+        <code class="language-html">
+  &lt;h1 class="font-bold"&gt;Tacos&lt;/h1&gt;</code>
+      </pre>
+      <div class="border my-4 p-4">
+        <div class="uppercase font-bold text-sm text-gray-500 mb-2">Result</div>
+        <h1 class="font-bold">Tacos</h1>
+      </div>
+      <p>
+        Adding the attribute <span class="bg-orange-100 text-red-400 font-mono p-1">class="font-bold"</span> to our <span class="bg-orange-100 text-red-400 font-mono p-1">h1</span> element is telling our HTML element to use one of the rules that comes with Tailwind – bold the text of any element that has the class name <span class="bg-orange-100 text-red-400 font-mono p-1">font-bold</span>. <strong>Tailwind simply provides us with a huge list of these rules that we can use to affect how our HTML looks.</strong> We can also use more than one of these rules at a time, by separating the class names with a space:
+      </p>
+      <pre class="m-0 p-0">
+        <code class="language-html">
+  &lt;h1 class="font-bold uppercase text-blue-500"&gt;Tacos&lt;/h1&gt;</code>
+      </pre>
+      <div class="border my-4 p-4">
+        <div class="uppercase font-bold text-sm text-gray-500 mb-2">Result</div>
+        <h1 class="font-bold uppercase text-blue-500">Tacos</h1>
+      </div>
+      <p>Now, our <span class="bg-orange-100 text-red-400 font-mono p-1">h1</span> element will be bolded, be transformed into all upper-case text, and be in a medium shade of blue.</p>
+      <p>So, how many of these rules does Tailwind have? <em>A lot</em>. Too many, in fact, to be covered in the scope of this course, but the rest of this reference will outline some of the ones that are most commonly used. We're also not going to rewrite the Tailwind documentation in its entirety here; rather, we'll be pointing to spots in the existing documentation and making it more clear for someone who's just getting started.</p>
+      <h3 class="text-xl font-bold">Colors</h3>
+      <p>Tailwind's color classes apply to either text, borders, or backgrounds. The color codes are broken into three pieces, separated by a dash – the first is either <span class="bg-orange-100 text-red-400 font-mono p-1">text</span>, <span class="bg-orange-100 text-red-400 font-mono p-1">border</span> or <span class="bg-orange-100 text-red-400 font-mono p-1">bg</span>, the second is the color (e.g. <span class="bg-orange-100 text-red-400 font-mono p-1">blue</span> or <span class="bg-orange-100 text-red-400 font-mono p-1">orange</span> or <span class="bg-orange-100 text-red-400 font-mono p-1">gray</span>), and third component is the intensity of the color (light to dark), from <span class="bg-orange-100 text-red-400 font-mono p-1">100</span> to <span class="bg-orange-100 text-red-400 font-mono p-1">900</span>. For example, <span class="bg-orange-100 text-red-400 font-mono p-1">text-red-500</span> will make the text of an element a medium shade of red, and <span class="bg-orange-100 text-red-400 font-mono p-1">bg-green-100</span> will make the background of an element a light green. See the complete <a href="https://tailwindcss.com/docs/customizing-colors#overview" class="text-pink-500 underline" target="_blank">default color palette</a> for a reference.</p>
+      <h3 class="text-xl font-bold">Typography</h3>
+      <table class="w-full text-left table-collapse my-4">
+        <tr>
+          <th class="font-bold text-gray-700 bg-gray-100 p-4">Class</th>
+          <th class="font-bold text-gray-700 bg-gray-100 p-4">Result</th>
+        </tr>
+        <tr>
+          <td class="w-1/3 text-red-400 bg-orange-100 font-mono p-4">
+            text-xs<br>
+            text-sm<br>
+            text-base<br>
+            text-lg<br>
+            text-xl<br>
+            text-2xl<br>
+            text-3xl<br>
+            text-4xl<br>
+            text-5xl<br>
+            text-6xl
+          </td>
+          <td class="p-4">Adjusts the font-size from extra-small to super-large</td>
+        </tr>
+        <tr>
+          <td class="text-red-400 bg-orange-100 font-mono p-4">
+            font-hairline<br>
+            font-thin<br>
+            font-light<br>
+            font-normal<br>
+            font-medium<br>
+            font-semibold<br>
+            font-bold<br>
+            font-extrabold<br>
+            font-black
+          </td>
+          <td class="p-4">Different levels of bold</td>
+        </tr>
+        <tr>
+          <td class="text-red-400 bg-orange-100 font-mono p-4">
+            text-left<br>
+            text-center<br>
+            text-right<br>
+            text-justify
+          </td>
+          <td class="p-4">Text alignment</td>
+        </tr>
+        <tr>
+          <td class="text-red-400 bg-orange-100 font-mono p-4">
+            underline<br>
+            uppercase<br>
+            lowercase<br>
+            capitalize
+          </td>
+          <td class="p-4">Text decoration/transformations</td>
+        </tr>
+      </table>
+      <h3 class="text-xl font-bold">Borders</h3>
+      <table class="w-full text-left table-collapse my-4">
+        <tr>
+          <th class="font-bold text-gray-700 bg-gray-100 p-4">Class</th>
+          <th class="font-bold text-gray-700 bg-gray-100 p-4">Result</th>
+        </tr>
+        <tr>
+          <td class="w-1/3 text-red-400 bg-orange-100 font-mono p-4">
+            border-0<br>
+            border<br>
+            border-2<br>
+            border-4<br>
+            border-8
+          </td>
+          <td class="p-4">Adjusts the thickness of the border. The default thickness (i.e. when using simply <span class="bg-orange-100 text-red-400 font-mono p-1">border</span>), is 1 pixel</td>
+        </tr>
+        <tr>
+          <td class="text-red-400 bg-orange-100 font-mono p-4">
+            rounded-sm<br>
+            rounded<br>
+            rounded-md<br>
+            rounded-lg<br>
+            rounded-xl<br>
+            rounded-2xl<br>
+            rounded-3xl<br>
+            rounded-full
+          </td>
+          <td class="p-4">Adjusts the roundness (radius) of the border</td>
+        </tr>
+      </table>
+      <h3 class="text-xl font-bold">Sizing</h3>
+      <p>Sizes of things, whether text, boxes, images, or any other type of element, are defined relative to Tailwind's <a href="https://tailwindcss.com/docs/customizing-spacing#default-spacing-scale" class="text-pink-500 underline" target="_blank">default spacing scale</a>. That sounds scary, but all that means is that there's a unit system where each unit is 4 pixels. So 1 unit = 4 pixels, 2 units = 8 pixels, 3 units = 12 pixels, and so on. You'll need to use this occasionally for fine-tuning, but it's more likely that you'll use fluid (i.e. percentage-based) sizing in order to support responsive design.</p>
+      <table class="w-full text-left table-collapse my-4">
+        <tr>
+          <th class="font-bold text-gray-700 bg-gray-100 p-4">Class</th>
+          <th class="font-bold text-gray-700 bg-gray-100 p-4">Result</th>
+        </tr>
+        <tr>
+          <td class="text-red-400 bg-orange-100 font-mono p-4">
+            w-0<br>
+            w-1<br>
+            w-2<br>
+            w-3<br>
+            w-96
+          </td>
+          <td class="p-4">Fixed width – adjusts sizing from 1 unit (4 pixels) to 96 (4 * 96 = 384 pixels)</td>
+        </tr>
+        <tr>
+          <td class="w-1/3 text-red-400 bg-orange-100 font-mono p-4">
+            w-{fraction}<br>
+            w-full
+          </td>
+          <td class="p-4">Fluid width – sizing relative to the element's parent element. <span class="bg-orange-100 text-red-400 font-mono p-1">fraction</span> is just that – a fraction that represents the percentage of the parent's width to occupy; for example, an element with the class <span class="bg-orange-100 text-red-400 font-mono p-1">w-1/2</span> will occupy 1/2 of its parent element's width. <span class="bg-orange-100 text-red-400 font-mono p-1">w-full</span> would occupy 100% of its parent's width.</td>
+        </tr>
+      </table>
+      <h3 class="text-xl font-bold">Box Model</h3>
+      <p>The <em>box model</em> in CSS refers a simple idea – from a design perspective, every HTML element is a box – you just can't see it by default. And each element's box is made up of four things – the element's content (in technical terms, the "inner HTML"), the padding (the space <em>inside the box</em>), the border (the border around the box), and the margin (the space <em>around the outside of the box</em>, i.e. the distance away from other, adjacent elements). This is best illustrated by the following, taken from <a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/The_box_model" class="text-pink-500 underline">Mozilla's article on the box model</a>:</p>
+      <p><img src="images/box-model.png" class="w-full"></p>
+      <p>The most important take-away from this, aside from the terminology, is that these four components of the box are all part of an element's size (i.e. width and height). For example, if an element has 200 pixels of content, 10 pixels of padding on all sides (top, right, bottom, and left), a 1 pixel border, and 20 pixels of margin on all sides, the element's width is 200 (content) + 10 (left padding) + 10 (right padding) + 1 (border left) + 1 (border right) + 20 (left margin) + 20 (right margin) = 262 pixels. This seems straightforward, but understanding how this calculation is made by the browser will help us with debugging potential issues with our layout later on.</p>
+      <table class="w-full text-left table-collapse my-4">
+        <tr>
+          <th class="font-bold text-gray-700 bg-gray-100 p-4">Class</th>
+          <th class="font-bold text-gray-700 bg-gray-100 p-4">Result</th>
+        </tr>
+        <tr>
+          <td class="w-1/3 text-red-400 bg-orange-100 font-mono p-4">
+            m-{number}<br>
+            p-{number}
+          </td>
+          <td class="p-4">Adds margin or padding on all sides, from 1 unit (4 pixels) to 64 (256 pixels) – for example, <span class="bg-orange-100 text-red-400 font-mono p-1">m-4</span> will add 16 pixels of margin to all sides of the element.</td>
+        </tr>
+        <tr>
+          <td class="w-1/3 text-red-400 bg-orange-100 font-mono p-4">
+            ml-{number}<br>
+            mr-{number}<br>
+            mt-{number}<br>
+            mb-{number}<br>
+            pl-{number}<br>
+            pr-{number}<br>
+            pt-{number}<br>
+            pb-{number}
+          </td>
+          <td class="p-4">Adds margin or padding on specific side (i.e. top, right, bottom, left), from 1 unit (4 pixels) to 64 (256 pixels) – for example, <span class="bg-orange-100 text-red-400 font-mono p-1">pt-4</span> will add 16 pixels of padding to the top side of the element.</td>
+        </tr>
+        <tr>
+          <td class="w-1/3 text-red-400 bg-orange-100 font-mono p-4">
+            mx-{number}<br>
+            my-{number}<br>
+            px-{number}<br>
+            py-{number}
+          </td>
+          <td class="p-4">Adds margin or padding on specific axis (i.e. x – left/right – or y – top/bottom), from 1 unit (4 pixels) to 64 (256 pixels) – for example, <span class="bg-orange-100 text-red-400 font-mono p-1">my-4</span> will add 16 pixels of
+            padding to the top and bottom sides of the element.</td>
+        </tr>
+        <tr>
+          <td class="w-1/3 text-red-400 bg-orange-100 font-mono p-4">
+            mx-auto<br>
+            my-auto<br>
+            m-auto
+          </td>
+          <td class="p-4">Adds an "automatic" amount of margin around a fixed-width element, i.e. centers the element using an equal amount of space around it. We'll most commonly encounter a class of <span class="bg-orange-100 text-red-400 font-mono p-1">mx-auto</span>, which will add "gutters" (i.e. space on the left and right) around a container element. A container is a simple class that will fix an element's width based on the current breakpoint (e.g. sm, md, lg). This is useful for a "fixed" layout – e.g. <span class="bg-orange-100 text-red-400 font-mono p-1">container mx-auto</span></td>
+        </tr>
+        <tr>
+          <td class="w-1/3 text-red-400 bg-orange-100 font-mono p-4">
+            space-x-{number}<br>
+            space-y-{number}<br>
+          </td>
+          <td class="p-4">Adds space between each child element. For example, if you have a series of paragraphs or other elements, it can be cumbersome to add a class of <span class="bg-orange-100 text-red-400 font-mono p-1">my-4</span> to every element. Instead, you can set a class of <span class="bg-orange-100 text-red-400 font-mono p-1">space-y-4</span> to the parent element, in order to get a spacing of 4 between each child element, along the y axis.</td>
+        </tr>
+      </table>
+      <h3 class="text-xl font-bold">Layout</h3>
+      <p>We can get pretty far with making our web pages look presentable using only the Tailwind classes outlined so far. As we try to design more sophisticated pages, however, we're going to find that we're generally limited to a vertical page design, where elements run from the top to the bottom of the page, and that making elements align nicely in a horizontal layout can be very challenging. In order to achieve horizontal layouts, we have to use a CSS feature called <em>flexbox</em>. Utilities for using <em>flexbox</em> are, of course, baked-in to Tailwind. There are a lot of them – we'll focus on just a few important techniques within the scope of this class.</p>
+      <p>Let's suppose we have three boxes of content we want to show in a horizontal row on our page.</p>
+      <div class="flex">
+        <div class="p-4 border text-4xl">1</div>
+        <div class="p-4 border text-4xl">Two</div>
+        <div class="p-4 border text-4xl">THREE!!!</div>
+      </div>
+      <p>We can achieve this quite simply with Tailwind and <em>flexbox</em>:</p>
+      <pre class="m-0 p-0">
+        <code class="language-html">
+  &lt;div class=&quot;flex&quot;&gt;
+    &lt;div class=&quot;p-4 border text-4xl&quot;&gt;1&lt;/div&gt;
+    &lt;div class=&quot;p-4 border text-4xl&quot;&gt;Two&lt;/div&gt;
+    &lt;div class=&quot;p-4 border text-4xl&quot;&gt;THREE!!!&lt;/div&gt;
+  &lt;/div&gt;</code>
+      </pre>
+      <p>The <span class="bg-orange-100 text-red-400 font-mono p-1">flex</span> class, when applied to an element, tells CSS that the child elements should be laid out according the rules of <em>flexbox</em>. By default, <em>flexbox</em> lays elements out horizontally, with the width of each child element defined by its inner content. We can also specify fixed widths, if we'd like:</p>
+      <div class="flex">
+        <div class="w-16 p-4 border text-4xl">1</div>
+        <div class="w-32 p-4 border text-4xl">Two</div>
+        <div class="w-64 p-4 border text-4xl">THREE!!!</div>
+      </div>
+      <pre class="m-0 p-0">
+        <code class="language-html">
+  &lt;div class=&quot;flex&quot;&gt;
+    &lt;div class=&quot;w-16 p-4 border text-4xl&quot;&gt;1&lt;/div&gt;
+    &lt;div class=&quot;w-32 p-4 border text-4xl&quot;&gt;Two&lt;/div&gt;
+    &lt;div class=&quot;w-64 p-4 border text-4xl&quot;&gt;THREE!!!&lt;/div&gt;
+  &lt;/div&gt;</code>
+      </pre>
+      <p>We can see that the boxes are set to a fixed width of 16, 32, and 64 units wide. As mentioned earlier, this isn't a common approach – usually, we're going to set each box's width to a percentage of the parent element:</p>
+      <div class="flex">
+        <div class="w-1/3 p-4 border text-4xl">1</div>
+        <div class="w-1/3 p-4 border text-4xl">Two</div>
+        <div class="w-1/3 p-4 border text-4xl">THREE!!!</div>
+      </div>
+      <pre class="m-0 p-0">
+        <code class="language-html">
+  &lt;div class=&quot;flex&quot;&gt;
+    &lt;div class=&quot;w-1/3 p-4 border text-4xl&quot;&gt;1&lt;/div&gt;
+    &lt;div class=&quot;w-1/3 p-4 border text-4xl&quot;&gt;Two&lt;/div&gt;
+    &lt;div class=&quot;w-1/3 p-4 border text-4xl&quot;&gt;THREE!!!&lt;/div&gt;
+  &lt;/div&gt;</code>
+      </pre>
+      <p>Here, each child element occupies exactly one-third of the parent element's total width – a much more common thing to see in a modern web layout – for example, an image with some text next to it, or perhaps a scrolling page with a sidebar used for navigation.</p>
+      <h3 class="text-xl font-bold">Responsive Design</h3>
+      <p>The last thing to think about, in our introductory look at CSS with Tailwind, is responsive design. In the above example, our three elements are lined up horizontally, with each element occupying exactly 1/3 of the parent element's width. This looks fine on a widescreen computer, but this quickly breaks down on a smaller, vertical screen – for example, an iPhone in its normal portrait orientation.</p>
+      <p><img src="images/ios-no-responsive.png"></p>
+      <p>We can see how the three-column layout, which looks great on a desktop computer, doesn't really work on the smaller mobile screen. What we'd prefer is for the column layout to be ignored at the smaller screen size, and for the three elements to simply flow from top to bottom, as if the columns we've defined weren't there at all. This is where <em>responsive design</em> comes to the rescue. Responsive design is just that – a design where the layout responds to changes in screen size. Ultimately, what we want is for our three-column layout to appear on screens that are large enough to support it, and for the layout to be ignored on anything smaller. Of course, Tailwind has these kinds of responsive design utilities built in, and they are quite straightforward to use.
+      <p>Using Tailwind's responsive design utilities can be broken down into two parts: screen size (i.e. "breakpoints"), and the use of breakpoint-specifc classes.</p>
+      <table class="w-full text-left table-collapse my-4">
+        <tr>
+          <th class="font-bold text-gray-700 bg-gray-100 p-4">Breakpoint</th>
+          <th class="font-bold text-gray-700 bg-gray-100 p-4">Screen size (in pixels)</th>
+        </tr>
+        <tr>
+          <td class="w-1/3 text-red-400 bg-orange-100 font-mono p-4">sm</td>
+          <td class="p-4">640</td>
+        </tr>
+        <tr>
+          <td class="w-1/3 text-red-400 bg-orange-100 font-mono p-4">md</td>
+          <td class="p-4">768</td>
+        </tr>
+        <tr>
+          <td class="w-1/3 text-red-400 bg-orange-100 font-mono p-4">lg</td>
+          <td class="p-4">1024</td>
+        </tr>
+        <tr>
+          <td class="w-1/3 text-red-400 bg-orange-100 font-mono p-4">xl</td>
+          <td class="p-4">1280</td>
+        </tr>
+      </table>
+      <p>Each one of these "breakpoints" (i.e. <span class="bg-orange-100 text-red-400 font-mono p-1">sm</span>, <span class="bg-orange-100 text-red-400 font-mono p-1">md</span>, <span class="bg-orange-100 text-red-400 font-mono p-1">lg</span>, and <span class="bg-orange-100 text-red-400 font-mono p-1">xl</span>, correspond to a certain <strong>minimum screen width</strong>. For example, <span class="bg-orange-100 text-red-400 font-mono p-1">md</span> is a code for the breakpoint that refers to <strong>a minimum of 768 pixels wide</strong>.</p>
+      <p><em>Every class name in Tailwind can be applied conditionally to a breakpoint</em>. Consider the following:</p>
+      <pre class="m-0 p-0">
+        <code class="language-html">
+  &lt;div class=&quot;text-red-500 md:text-purple-500&quot;&gt;</code>
+      </pre>
+      <p>We apply classes conditionally based on breakpoint by prefixing the class name with the name of the breakpoint and a colon. The above example translates to: <em>Apply a text color of medium purple on browser windows 768 pixels or greater in width, otherwise apply a text color of medium red</em>.</p>
+      <p>So, how do we solve our problem of "three-column layout to appear on screens that are large enough to support it, and for the layout to be ignored on
+      anything smaller"? First, let's choose a breakpoint. We'll choose <span class="bg-orange-100 text-red-400 font-mono p-1">md</span> in this case, but in practice, we'd experiement to see which one is best. Then, we'll make sure that our rules for creating horizontal columns (i.e. using <em>flexbox</em> with our 1/3 wide child elements) are only applied on <span class="bg-orange-100 text-red-400 font-mono p-1">md</span>-sized windows or greater:</p>
+      <pre class="m-0 p-0">
+        <code class="language-html">
+  &lt;div class=&quot;md:flex&quot;&gt;
+    &lt;div class=&quot;md:w-1/3 p-4 border text-4xl&quot;&gt;1&lt;/div&gt;
+    &lt;div class=&quot;md:w-1/3 p-4 border text-4xl&quot;&gt;Two&lt;/div&gt;
+    &lt;div class=&quot;md:w-1/3 p-4 border text-4xl&quot;&gt;THREE!!!&lt;/div&gt;
+  &lt;/div&gt;</code>
+      </pre>
+      <p>Using the <span class="bg-orange-100 text-red-400 font-mono p-1">md:</span> prefix on our <span class="bg-orange-100 text-red-400 font-mono p-1">flex</span> class name will ensure that it's only applied on windows 768 pixels or greater. <em>On smaller sizes, that class name will be completely ignored.</em> We also have to apply the same logic to our <span class="bg-orange-100 text-red-400 font-mono p-1">w-1/3</span> class name, so that class will be ignored on smaller screens, with our three child elements occupying 100% of the available screen width.</p>
+      <p><img src="images/ios-responsive.png"></p>
+    </div>
+  </div>
+</body>
+</html>

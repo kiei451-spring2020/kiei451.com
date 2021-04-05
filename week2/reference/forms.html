@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KIEI-451: HTML Forms</title>
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism.min.css" rel="stylesheet"
+    type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/line-numbers/prism-line-numbers.min.css"
+    rel="stylesheet" type="text/css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/prism.min.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+</head>
+
+<body>
+  <div class="container mx-auto py-8 space-y-4">
+    <h1 class="text-lg uppercase text-gray-500 font-bold">KIEI-451: Introduction to Software Development</h1>
+    <h2 class="text-2xl font-bold">HTML Introduction – Forms</h2>
+    <p>In HTML, <strong>forms</strong> are the primary way to capture input from end users. Let's look at a basic example:</p>
+    <pre class="m-0 p-0">
+      <code class="language-html">
+&lt;form&gt;
+  &lt;label for=&quot;name&quot;&gt;What is your name?&lt;/label&gt;
+  &lt;input type=&quot;text&quot; id=&quot;name&quot; name=&quot;name&quot;&gt;
+
+  &lt;label for=&quot;favorite-color&quot;&gt;What is your favorite color?&lt;/label&gt;
+  &lt;input type=&quot;text&quot; id=&quot;favorite-color&quot; name=&quot;favoriteColor&quot;&gt;
+
+  &lt;button&gt;Submit form!&lt;/button&gt;
+&lt;/form&gt;</code>
+    </pre>
+    <p>Here, we have a <span class="bg-orange-100 text-red-400 font-mono p-1">form</span> element that wraps the entirety of the form and indicates that this part of the HTML page is meant for end-user input. Next, we have two <span class="bg-orange-100 text-red-400 font-mono p-1">input</span> fields and their corresponding <span class="bg-orange-100 text-red-400 font-mono p-1">label</span> elements. The label describes the input's question – we'll often see these two elements working together within the form – although there are certainly cases where form inputs do not have labels. Finally, we have a <span class="bg-orange-100 text-red-400 font-mono p-1">button</span> that will submit the form when clicked. What does <em>submit the form</em> mean exactly? Let's find out.</p>
+    <h3 class="text-xl font-bold">Action!</h3>
+    <p>If we fill out this form with the name "Brian" and the color "red" and hit the submit button, nothing much will happen on the surface. In fact, the only thing that will happen is a subtle change in the browser's address bar – if you look closely, the string <span class="bg-orange-100 text-red-400 font-mono p-1">?name=Brian&favoriteColor=red</span> is added to the end of the existing page URL. That may not seem like much, but this tells us everything we need to know about how native HTML captures data entered on our web page and potentially transfers it to another page, either on our site or externally.</p>
+    <p>The first thing to notice is how the web browser automatically structures the data entered into a collection of <em>key-value pairs</em> – that is, each piece of data is separated into two parts – a <strong>key</strong> and a <strong>value</strong>. For instance, a key of "color" and a value of "red", separated by the equals-sign (<span class="bg-orange-100 text-red-400 font-mono p-1">=</span>). And that each key-value pair of data is separated by the ampersand (<span class="bg-orange-100 text-red-400 font-mono p-1">&</span>). All of this data – known as the <em>query string</em> – is separated from the rest of the URL by the question mark (<span class="bg-orange-100 text-red-400 font-mono p-1">?</span>).</p>
+    <p>The second thing to notice is how the page doesn't go anywhere when the submit button is clicked – it just stays on the page. This is the default behavior of the <span class="bg-orange-100 text-red-400 font-mono p-1">form</span> element. Let's override that behavior, by adding a single attribute to our <span class="bg-orange-100 text-red-400 font-mono p-1">form</span> element:</p>
+    <pre class="m-0 p-0">
+      <code class="language-html">
+&lt;form action=&quot;process-form.html&quot;&gt;</code>
+    </pre>
+    <p>Submitting the form will now send our browser to <span class="bg-orange-100 text-red-400 font-mono p-1">process-form.html?name=Brian&favoriteColor=red</span>. In short, <strong>a form works just like a link, but with more data attached</strong>. Let's try something different, just to see a more practical use of a form and to illustrate this point further.</p>
+    <p>If we head over to <a href="https://maps.google.com/?q=paris" target="_blank" class="text-pink-500 underline">https://maps.google.com/?q=paris</a>, we'll see that Google Maps accepts a query string (remember: that's the part of the URL that starts with the question mark and is a list of key-value pairs) – a map of Paris appears. If we wanted to provide our users with direct links to maps of several cities, we could of course create links to <a href="https://maps.google.com/?q=paris" target="_blank" class="text-pink-500 underline">https://maps.google.com/?q=paris</a>, <a href="https://maps.google.com/?q=brooklyn" target="_blank" class="text-pink-500 underline">https://maps.google.com/?q=brooklyn</a>, <a href="https://maps.google.com/?q=las+vegas" target="_blank" class="text-pink-500 underline">https://maps.google.com/?q=las+vegas</a>, and so on. Or, we could simply provide a form, giving the ability for our users to input the city they'd like to see:</p>
+    <pre class="m-0 p-0">
+      <code class="language-html">
+&lt;form action=&quot;https://maps.google.com/&quot;&gt;
+  &lt;label for=&quot;q&quot;&gt;Where to?&lt;/label&gt;
+  &lt;input type=&quot;text&quot; id=&quot;q&quot; name=&quot;q&quot;&gt;
+
+  &lt;button&gt;Go there now!&lt;/button&gt;
+&lt;/form&gt;</code>
+    </pre>
+    <h3 class="text-xl font-bold">Styling Forms</h3>
+    <p>As with everything else when using Tailwind, forms and their corresponding input fields come with no styling – it's all up to us when it comes to how the forms ultimately look. Let's add some Tailwind to our "name and favorite color" form, to make it look more like a form that we're used to seeing in the wild.</p>
+    <pre class="m-0 p-0">
+      <code class="language-html">
+&lt;form&gt;
+  &lt;label class=&quot;block mt-4 font-bold&quot; for=&quot;name&quot;&gt;What is your name?&lt;/label&gt;
+  &lt;input class=&quot;p-2 w-64 border border-gray-400 rounded shadow-xl focus:outline-none focus:ring-purple-500
+  focus:border-purple-500&quot; type=&quot;text&quot; id=&quot;name&quot; name=&quot;name&quot;&gt;
+
+  &lt;label class=&quot;block mt-4 font-bold&quot; for=&quot;favorite-color&quot;&gt;What is your favorite
+  color?&lt;/label&gt;
+  &lt;input class=&quot;p-2 w-64 border border-gray-400 rounded shadow-xl focus:outline-none focus:ring-purple-500
+  focus:border-purple-500&quot; type=&quot;text&quot; id=&quot;favorite-color&quot; name=&quot;favoriteColor&quot;&gt;
+
+  &lt;button class=&quot;block mt-4 text-white bg-purple-500 rounded px-4 py-2&quot;&gt;Submit form!&lt;/button&gt;
+&lt;/form&gt;</code>
+    </pre>
+    <h3 class="text-xl font-bold">An Aside: Input Types</h3>
+    <p>For the purposes of this introduction, we've focused on just the <strong>text input type</strong>. For a complete list of input types that are native to HTML, see this <a class="text-pink-500 underline" target="_blank" href="https://developer.mozilla.org/en-US/docs/Learn/Forms/Basic_native_form_controls">comprehensive guide to basic native form controls from Mozilla</a>.</p>
+  </div>
+</body>
