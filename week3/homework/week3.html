@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KIEI-451: Week 3 Homework Instructions</title>
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism.min.css" rel="stylesheet" type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/line-numbers/prism-line-numbers.min.css"
+    rel="stylesheet" type="text/css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/prism.min.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+</head>
+
+<body class="p-8 line-numbers">
+  <div class="container mx-auto">
+    <h1 class="text-4xl my-4">Week 3 Homework</h1>
+    <div class="space-y-4">
+      <p>Your hot new rideshare startup, Noober, is about to launch its MVP. Your back-end engineering team has completed work on the API that provides data about rides, and you'd like to test it out by consuming it and producing a human-readable output.</p>
+      <h3 class="text-xl font-bold">Getting Started</h3>
+      <p>Begin by heading over to <a href="https://github.com/kiei451-spring2021/noober-week3" class="text-pink-500 underline">the starter project</a> – select "Use this template", then create a repository in your own GitHub account called <span class="bg-orange-100 text-red-400 font-mono p-1">hw3</span>. Clone this project and open it in VSCode.</p>
+      <p>Open <span class="bg-orange-100 text-red-400 font-mono p-1">index.html</span> in Chrome, then open the JavaScript console.</p>
+      <h3 class="text-xl font-bold">The Goal</h3>
+      <p>Each time the page is refreshed, display a new, randomized ride in the JavaScript console. The random ride data is already provided – simply use the <span class="bg-orange-100 text-red-400 font-mono p-1">ride</span> variable. The provided code writes out the value of this variable to the JavaScript Console in Chrome – inspect the structure of this data using the Console. Your job is to extract the data from this Object and provide human-readable output to the Console.</p>
+      <h3 class="text-xl font-bold">Business Rules/Rubric</h3>
+      <p>With Noober, riders must specify the following data/criteria for their requested ride:</p>
+      <ol class="list-decimal list-inside">
+        <li>Name</li>
+        <li>Phone Number</li>
+        <li>Pickup Location</li>
+        <li>Dropoff Location</li>
+        <li>Number of passengers in their party</li>
+        <li>Whether or not they would like a luxury "Noober Purple" car</li>
+      </ol>
+      <p>There is code already provided that properly runs when the page is loaded or refreshed. This code does the work of reaching out to the rides API and obtaining a random ride – you should not modify this existing code; rather, begin the implmentation of the following requirements starting on line 15 of the code:</p>
+      <ol class="list-decimal list-inside">
+        <li>Parse the data given in the random ride Object, and present it in human-readable format, for example: <em>Noober X Passenger: Kiley Thompson - (260) 908-6886. Pickup at 1301 N State Pkwy, Chicago, IL 60624. Drop-off at 2362 N Clybourn Ave, Chicago, IL 60657.</em></li>
+        <li>(3 points) Approach the problem like we did in class – write the recipe (algorithm) using comments, then write the code according to the recipe.</li>
+        <li>(3 points) Create a well-named variable for each data point in the Object. For example, <span class="bg-orange-100 text-red-400 font-mono p-1">passengerFirstName</span>. Then, use these variables to construct your string of output to be written to the JavaScript console.</li>
+        <li>(2 points) Use conditional logic – if the rider has requested the luxury "Purple" level of service, i.e. <span class="bg-orange-100 text-red-400 font-mono p-1">purpleRequested</span>, display "Noober Purple" as the level of service, e.g. <em>Noober Purple Passenger: Freeman Waters...</em></li>
+        <li>(2 points) If the <span class="bg-orange-100 text-red-400 font-mono p-1">numberOfPassengers</span> in a single ride request is greater than 3, we'll need to upgrade to a larger car. Display "Noober XL" as the level of service.</li>
+        <li>A request for Noober Purple supercedes the Noober XL logic. In other words, if a Noober Purple has been requested, it doesn't matter how many passengers there are. Anything else is the normal level of service, "Noober X".</li>
+      </ol>
+      <h3 class="text-xl font-bold">Guidelines for Submission</h3>
+      <p>All your work should take place in <span class="bg-orange-100 text-red-400 font-mono p-1">noober.js</span>; i.e. that should be the only file that's modified from the original project template. Your finished product should live in your GitHub account at <span class="bg-orange-100 text-red-400 font-mono p-1">https://github.com/&lt;your GitHub username&gt;/hw3</span>, and <strong>this URL should be submitted as the "website URL" for this assignment in Canvas.</strong></p>
+    </div>
+  </div>
+</body>
+
+</html>

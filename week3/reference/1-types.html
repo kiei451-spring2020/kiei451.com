@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KIEI-451: Variables and Types</title>
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism.min.css" rel="stylesheet" type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" type="text/css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+</head>
+
+<body class="p-8 line-numbers">
+  <div class="container mx-auto">
+    <h1 class="text-4xl">Lesson 1: Variables and Types</h1>
+    <p class="my-4">Variables are at the heart of any programming language. <em>What is a variable exactly?</em> In its simplest form, a variable is simply an arbitrary name given to some memory on our computer. Variables may be <strong>get</strong> or they may be <strong>set</strong>, meaning that we can either assign a value to that arbitarily-named area of memory, or we can retrieve the value that is contained within.
+    <p class="my-4">Here is a basic example:</p>
+    <pre class="m-0 p-0">
+      <code class="language-js">let x
+      x = 5
+      let y = 14
+      
+      console.log(x) // writes the number 5 to the JavaScript console
+      console.log(y) // writes the number 14 to the console
+
+      let z = x + y
+
+      console.log(z) // writes the number 19 to the console
+        
+      x = 11
+
+      console.log(x) // writes the number 11 to the console
+      console.log(z) // writes the number 19 to the console</code>
+    </pre>
+    <p class="my-4">We can name variables whatever we want; just think of a variable as giving a name in memory for
+    a container holding something we'd like to store away for later. In this example, we are using the <span class="bg-orange-100 text-red-400 font-mono p-1">let</span> keyword to create the arbitarily-named variable <span class="bg-orange-100 text-red-400 font-mono p-1">x</span>, and on the next line, storing the number <span class="bg-orange-100 text-red-400 font-mono p-1">5</span> inside. Likewise, we're taking the number<span class="bg-orange-100 text-red-400 font-mono p-1">14</span>, and putting it inside a variable that we're naming <span
+      class="bg-orange-100 text-red-400 font-mono p-1">y</span> – we're declaring the variable and storing its value on the same line this time. </p>
+    <p class="my-4">On lines 5 and 6, we are opening the containers named <span class="bg-orange-100 text-red-400 font-mono p-1">x</span> and <span class="bg-orange-100 text-red-400 font-mono p-1">y</span>, retrieving the values inside, and writing those values to the JavaScript console.
+    <p class="my-4">On line 8, we are, once again, retrieving the values of <span class="bg-orange-100 text-red-400 font-mono p-1">x</span> and <span class="bg-orange-100 text-red-400 font-mono p-1">y</span>from memory – only this time, we're using those values to create a brand-new variable in memory called <span class="bg-orange-100 text-red-400 font-mono p-1">z</span>. This variable contains the sum of the values contained within <span class="bg-orange-100 text-red-400 font-mono p-1">x</span> and <span class="bg-orange-100 text-red-400 font-mono p-1">y</span> <em>at the moment it was created</em>. An important thing to note is that JavaScript only uses the <strong>values</strong> contained within <span class="bg-orange-100 text-red-400 font-mono p-1">x</span> and <span class="bg-orange-100 text-red-400 font-mono p-1">y</span>, and <strong>not references</strong> to these variables in memory. This is made more clear as we redefine the value of <span class="bg-orange-100 text-red-400 font-mono p-1">x</span> in line 12. Changes to <span class="bg-orange-100 text-red-400 font-mono p-1">x</span> only affect the value of <span class="bg-orange-100 text-red-400 font-mono p-1">x</span>, not the value of <span class="bg-orange-100 text-red-400 font-mono p-1">z</span>.</p>
+    <p class="my-4"><em>Side note: The <span class="bg-orange-100 text-red-400 font-mono p-1">//</span> characters we're using here denote <strong>code comments</strong>. These comments won't be evaluated, but serve as a simple way for us to jot down notes or hints about our code's functionality, embedded in the code itself.</em></p>
+    <p class="my-4">So what can we store inside a variable? So far, we've only stored <strong>Numbers</strong>, but JavaScript (and all other programming languages) support several different <strong>types</strong>. We can also store non-numeric values (<strong>String</strong>), and true/false values (<strong>Boolean</strong>). Let's briefly look at these 3 basic types:</p>
+    <pre class="m-0 p-0">
+      <code class="language-js">let quantity = 5 // Number
+      let food = `tacos` // String
+      let withSalsa = true // Boolean</code>
+    </pre>
+    <p class="my-4">Note that <strong>Strings</strong> are defined with either backticks or quotes, whereas <strong>Numbers</strong> and <strong>Booleans</strong> are without backticks/quotes. <em>Advanced note for the curious: JavaScript is a dynamically-typed language, which means that a variable's type (e.g. Number, String, Boolean) is inferred when defined. This is in contrast to typed or "statically-typed" languages like Java or C, where a variable's type must be declared when defined.</em></p>
+    <p class="my-4">As we can see, on line 8 in our first code example above, we can perform arithmetic <strong>operations</strong> on values when defining variables. As we'd expect, something like <span class="bg-orange-100 text-red-400 font-mono p-1">x + y</span> simply adds two numbers together. We can also do something a little less obvious – we can <span class="bg-orange-100 text-red-400 font-mono p-1">+</span> two Strings, or even Numbers and Strings together:</p>
+    <pre class="m-0 p-0">
+      <code class="language-js">let quantity = 5 // Number
+      let food = `tacos` // String
+      let order = quantity + ` ` + food // => `5 tacos`</code>
+    </pre>
+    <p class="my-4">Concatenating strings together is an extremely common task in web development; we will be doing this often. While using the <span class="bg-orange-100 text-red-400 font-mono p-1">+</span> sign works well, using it to build complex strings again and again tends to get very cumbersome. Instead, we`ll use something called <a class="text-blue-500 underline" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals" target="_blank">template literals</a> instead. An example:</p>
+    <pre class="m-0 p-0">
+      <code class="language-js">let quantity = 5 // Number
+      let food = `tacos` // String
+      let order = `I would like ${quantity} ${tacos}, please` // => `I would like 5 tacos, please`</code>
+    </pre>
+    <p class="my-4">The output of a template literal is a String, and we must use the backtick (<span class="bg-orange-100 text-red-400 font-mono p-1">`</span>) character to define it. And, we use the dollar-sign-curly-braces (<span class="bg-orange-100 text-red-400 font-mono p-1">${}</span>) as placeholders for variables or any other JavaScript code we'd like to insert into the newly created String.</p>
+  </div>
+</body>
+
+</html>

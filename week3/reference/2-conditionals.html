@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KIEI-451: Conditionals</title>
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism.min.css" rel="stylesheet"
+    type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/line-numbers/prism-line-numbers.min.css"
+    rel="stylesheet" type="text/css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/prism.min.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+</head>
+
+<body class="p-8 line-numbers">
+  <div class="container mx-auto">
+    <h1 class="text-4xl">Lesson 2: Conditionals</h1>
+    <p class="my-4">It's pretty rare that a computer program, like the one we wrote in the last lesson, simply runs from start to finish without some decisions to be made. After all, the main purpose of most computer code is to evaluate some input, make some decisions based on some business or scientific rules, and produce an output that an end-user can understand. That's where conditional logic comes in.</p>
+    <p class="my-4">In JavaScript (and most other languages), the fundamental building block of conditional logic (aka control flow) is the <span class="bg-orange-100 text-red-400 font-mono p-1">if</span> statement. The basic structure of the <span class="bg-orange-100 text-red-400 font-mono p-1">if</span> statement is as follows:</p>
+    <pre class="m-0 p-0">
+      <code class="language-js">let test = true // or false
+      
+      if (test) {
+        // do something that should only happen if test evaluates to true
+      }</code>
+    </pre>
+    <p class="my-4"><strong>test</strong>, in this example, is known as a <strong>condition</strong> – an expression or variable that should evaluate to a <strong>Boolean</strong> – <em>true</em> or <em>false</em>. We can, of course, set the value of <strong>test</strong> to the hard-coded <em>true</em> or <em>false</em> values, but that doesn't usually happen – instead, we perform an actual test on the inputs/variables available within the context of our code:</p>
+    <p class="my-4">Here is a basic example of how we can use the <span class="bg-orange-100 text-red-400 font-mono p-1">if</span> statement to make our code move in different directions:</p>
+    <pre class="m-0 p-0">
+      <code class="language-js">let number = 13
+      
+      if (number == 0) {
+        console.log(`zero!`)
+      } else if (number < 0) {
+        console.log(`negative number!`)
+      } else {
+        console.log(`positive number!`)
+      }</code>
+    </pre>
+    <p class="my-4">The output of our program will change, based on the value that's set to <span class="bg-orange-100 text-red-400 font-mono p-1">number</span> in line 1. We can see that JavaScript reads quite logically, but if we were to spell out this behavior:</p>
+    <ul class="list-inside list-disc">
+      <li>We are performing a series of "tests" here – the first test, on line 3, compares <span
+        class="bg-orange-100 text-red-400 font-mono p-1">number</span> to the number zero. If that "test passes", we perform
+      the code that is given between the curly braces (<span class="bg-orange-100 text-red-400 font-mono p-1">{}</span>) that
+      immediately follows the test.</li>
+      <li>The next test, on line 5, checks if <span
+        class="bg-orange-100 text-red-400 font-mono p-1">number</span> is less than zero. </li>
+      <li>Finally, if neither of those
+      tests pass, we revert to the fallback case that's described in the <span
+        class="bg-orange-100 text-red-400 font-mono p-1">else</span> clause.</li>
+    </ul>
+    <p class="my-4">Let's talk about the <span class="bg-orange-100 text-red-400 font-mono p-1">==</span> and <span class="bg-orange-100 text-red-400 font-mono p-1"><</span> that we're seeing here. These are known as <strong>comparison operators</strong> – that is, operators that are designed to return a <strong>Boolean</strong> value as a result. There are a few of these comparison operators in JavaScript, but the important ones (for now) are as follows:</p>
+    <table class="my-4 table-auto border-collapse border-2 border-gray-500">
+      <thead>
+        <tr>
+          <th class="px-4 py-2 border">Operator</th>
+          <th class="px-4 py-2 border">Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="px-4 py-2 border">Equal
+            (<code>==</code>)</td>
+          <td class="px-4 py-2 border">Returns <code>true</code> if the operands are equal.</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">Not equal
+            (<code>!=</code>)</td>
+          <td class="px-4 py-2 border">Returns <code>true</code> if the operands are not equal.</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">Greater
+              than (<code>&gt;</code>)</td>
+          <td class="px-4 py-2 border">Returns <code>true</code> if the left operand is greater than the right operand.</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">Greater
+              than or equal (<code>&gt;=</code>)</td>
+          <td class="px-4 py-2 border">Returns <code>true</code> if the left operand is greater than or equal to the right operand.</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">Less than
+            (<code>&lt;</code>)</td>
+          <td class="px-4 py-2 border">Returns <code>true</code> if the left operand is less than the right operand.</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">Less
+              than or equal (<code>&lt;=</code>)</td>
+          <td class="px-4 py-2 border">Returns <code>true</code> if the left operand is less than or equal to the right operand.</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="my-4">We can also combine these comparison operators with <strong>logical operators</strong>, i.e. <span class="bg-orange-100 text-red-400 font-mono p-1">&&</span> (and) and <span class="bg-orange-100 text-red-400 font-mono p-1">||</span> (or) to create more in-depth conditions; for instance:</p>
+    <pre class="m-0 p-0">
+      <code class="language-js">let dinner = `tacos`
+      let dessert = `cupcakes`
+      
+      if (dinner == `tacos` && dessert == `cupcakes`) {     // if dinner is tacos AND dessert is cupcakes
+        console.log(`could it get any better?`)
+      } else if (dinner == `tacos` || dinner == `pizza`) {  // if dinner is tacos OR pizza
+        console.log(`sweet!`)
+      } else if (dinner == `kale`) {
+        console.log(`ewwww!`)
+      } else {
+        console.log(`ok...`)
+      }</code>
+    </pre>
+    <h2 class="my-4 font-bold text-2xl">The Thing You'll Get Wrong 99 Times Until You Finally Get It Right</h2>
+    <p class="my-4">The single equals sign <span class="bg-orange-100 text-red-400 font-mono p-1">=</span> is used for <strong>variable assignment</strong>. The double equals sign <span class="bg-orange-100 text-red-400 font-mono p-1">==</span> is the <strong>comparison operator used for comparing equality</strong>. Don't confuse the two! Consider the following code:</p>
+    <pre class="m-0 p-0">
+      <code class="language-js">let dinner = `kale`
+      
+      // incorrect - will cause unexpected results!
+      if (dinner = `tacos`) {
+        // This will always be true!
+      }
+      
+      // correct
+      if (dinner == `tacos`) {
+        // This will properly perform the comparison
+      }</code>
+    </pre>
+    <p class="my-4">The code on line 4 – <span class="bg-orange-100 text-red-400 font-mono p-1">dinner = `tacos`</span> – will <strong>always</strong> be <span class="bg-orange-100 text-red-400 font-mono p-1">true</span>. Why? Because we're not performing a comparison; instead we're assigning the value of <span class="bg-orange-100 text-red-400 font-mono p-1">`tacos`</span> to the variable <span class="bg-orange-100 text-red-400 font-mono p-1">dinner</span> – and this will always successfully complete.</p>
+  </div>
+</body>
+
+</html>
