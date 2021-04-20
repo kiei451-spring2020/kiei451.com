@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KIEI-451: The DOM</title>
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism.min.css" rel="stylesheet"
+    type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/line-numbers/prism-line-numbers.min.css"
+    rel="stylesheet" type="text/css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/prism.min.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+</head>
+
+<body>
+  <div class="container mx-auto my-8">
+    <div class="md:flex justify-between">
+      <div class="md:w-3/5">
+        <h1 class="text-lg uppercase text-gray-500 font-bold">KIEI-451: Introduction to Software Development</h1>
+        <h2 class="text-2xl font-bold">Javascript & the Browser - Part 1</h2>
+      </div>
+    </div>
+
+    <div class="mt-4 space-y-4">
+      <h3 class="text-xl font-bold">The Document Object Model</h3>
+
+      <p>
+        In an earlier lesson, we learned about Javascript objects. Recall that objects can have both attributes (properties) and behaviors (methods).
+        When writing javascript for the browser, we have access to arguably the most important object in Javascript: the <strong>Document Object Model</strong> (<strong>DOM</strong>).
+      </p>
+
+      <p>
+        The DOM is the data representation of a webpage's html structure and content.
+        <br>
+        For the rest of this lesson, all code should be entered into the javascript console in your browser's developer tools.
+        <em>(Alternatively, if coding in a separate file, wrap any code in <span class="bg-orange-100 text-red-400 font-mono p-1">console.log()</span> to view it in the javascript console.)</em>
+      </p>
+
+<pre class="m-0 p-0">
+  <code class="language-js">
+  document
+  // => #document
+  </code>
+</pre>
+
+      <p>
+        Expand the object in your console (by clicking the tiny arrow to its left). Does it look familiar? Switch over to the <em>"Elements"</em> tab in your Developer Tools.
+        It should look familiar now.
+        The browser adds extra behaviors to the document object displayed in the <em>"Elements"</em> tool, but otherwise, they're almost identical!
+      </p>
+
+      <p>So what now? Well, the DOM is a lot more than just a representation of the page's html neatly organized. Let's check out one of its attributes:</p>
+
+<pre class="m-0 p-0">
+  <code class="language-js">
+  document.location
+  // => Location {...}
+  </code>
+</pre>
+
+      <p>
+        The <span class="bg-orange-100 text-red-400 font-mono p-1">location</span> attribute is an object (denoted by the curly braces <span class="bg-orange-100 text-red-400 font-mono p-1">`{...}`</span>).
+        And as with any object, it has its own attributes:
+      </p>
+
+<pre class="m-0 p-0">
+  <code class="language-js">
+  let location = document.location
+  location.href
+  // => "https://..."
+  </code>
+</pre>
+
+      <p>
+        Notice that the <span class="bg-orange-100 text-red-400 font-mono p-1">href</span> attribute of the DOM's <span class="bg-orange-100 text-red-400 font-mono p-1">Location</span> object is a <em>String</em> - the current webpage's URL (or address).
+      </p>
+
+      <p>
+        Let's look at another of the DOM's attributes, <span class="bg-orange-100 text-red-400 font-mono p-1">children</span>:
+      </p>
+
+<pre class="m-0 p-0">
+  <code class="language-js">
+  document.children
+  // => HTMLCollection [html]
+  </code>
+</pre>
+
+      <p>
+        What does this attribute look like? The <span class="bg-orange-100 text-red-400 font-mono p-1">`[]`</span> is a hint.
+        It's called an <span class="bg-orange-100 text-red-400 font-mono p-1">HTMLCollection</span>, but for all intents and purposes, it's an <strong>array</strong>!
+        This particular array only has 1 element inside:
+      </p>
+
+<pre class="m-0 p-0">
+  <code class="language-js">
+  document.children[0]
+  // => &lt;<span class="hljs-name">html lang="en"</span>&gt;...
+  </code>
+</pre>
+
+      <p>If we compare this with our html in the <em>"Elements"</em> tool, we'll see this is the top-level <span class="bg-orange-100 text-red-400 font-mono p-1">&lt;<span class="hljs-name">html</span>&gt;</span> element of our webpage. Let's dig 1 level deeper:</p>
+
+<pre class="m-0 p-0">
+  <code class="language-js">
+  let htmlElement = document.children[0]
+  htmlElement.children
+  // => HTMLCollection(2) [head, body]
+  </code>
+</pre>
+
+      <p>
+        Now we're looking at another array, this time with 2 elements.
+        The first is our <span class="bg-orange-100 text-red-400 font-mono p-1">&lt;<span class="hljs-name">head</span>&gt;</span> element.
+        The second is our<span class="bg-orange-100 text-red-400 font-mono p-1">&lt;<span class="hljs-name">body</span>&gt;</span> element.
+      </p>
+
+      <p>
+        Collectively, the DOM is a tree of these html elements, or <strong>nodes</strong>, where each node is an object representing an html element.
+        And as an object, each node has its own attributes and behaviors.
+      </p>
+
+      <p>
+        A simple visualization of the DOM tree:
+        <img src="../images/dom-nodes.png" class="h-96">
+      </p>
+
+      <p>
+        Using a node's <span class="bg-orange-100 text-red-400 font-mono p-1">children</span> attribute, we can traverse the tree downward. If a node has no child nodes, the <span class="bg-orange-100 text-red-400 font-mono p-1">children</span> attribute will be an empty array (<span class="bg-orange-100 text-red-400 font-mono p-1">`[]`</span>).
+        Every node in the DOM has a single parent node (except for <span class="bg-orange-100 text-red-400 font-mono p-1">html</span>).
+        We can access the parent using the node's <span class="bg-orange-100 text-red-400 font-mono p-1">parentElement</span> attribute, and then traverse the tree back upward.
+      </p>
+
+<pre class="m-0 p-0">
+  <code class="language-js">
+  let headNode = document.children[0].children[0]
+  let bodyNode = document.children[0].children[1]
+
+  headNode.parentElement
+  // => &lt;<span class="hljs-name">html lang="en"</span>&gt;...
+  bodyNode.parentElement
+  // => &lt;<span class="hljs-name">html lang="en"</span>&gt;...
+  bodyNode.parentElement.parentElement
+  // => null
+  </code>
+</pre>
+
+      <p>
+        There are many more node attributes to explore and we'll look at a couple more shortly, but let's turn to behaviors (methods) first.
+      </p>
+
+      <p>
+        You can probably imagine that in a long and complex webpage of html nodes, it would be cumbersome to find a node by going through the entire tree.
+        It's also what software developers would call <em>fragile</em> because even a minor change in the html structure might break the code.
+        Thankfully, there are more precise and resilient ways to locate DOM nodes using built-in methods.
+      </p>
+
+      <h3 class="text-xl font-bold">Finding Nodes</h3>
+
+      <p>
+        We'll use the following sample html for this section.
+      </p>
+
+      <div class="border my-4 p-4">
+        <div class="grid grid-cols-3 gap-4">
+
+<pre class="col-span-2 m-0 p-0">
+  <code class="language-html">
+  &lt;<span class="hljs-name">!DOCTYPE html</span>&gt;
+  &lt;<span class="hljs-name">html lang="en"</span>&gt;
+    &lt;<span class="hljs-name">head</span>&gt;
+      &lt;<span class="hljs-name">title</span>&gt;KIEI-451&lt;<span class="hljs-name">/title</span>&gt;
+    &lt;<span class="hljs-name">/head</span>&gt;
+    &lt;<span class="hljs-name">body</span>&gt;
+      &lt;<span class="hljs-name">div class="main"</span>&gt;
+        &lt;<span class="hljs-name">h1</span>&gt;Lessons&lt;<span class="hljs-name">/h1</span>&gt;
+        &lt;<span class="hljs-name">ul id="lessons"</span>&gt;
+          &lt;<span class="hljs-name">li class="lesson"</span>&gt;The DOM&lt;<span class="hljs-name">/li</span>&gt;
+          &lt;<span class="hljs-name">li class="lesson"</span>&gt;Events&lt;<span class="hljs-name">/li</span>&gt;
+          &lt;<span class="hljs-name">li class="lesson"</span>&gt;APIs&lt;<span class="hljs-name">/li</span>&gt;
+        &lt;<span class="hljs-name">/ul</span>&gt;
+        &lt;<span class="hljs-name">p</span>&gt;This week, we're learning to use Javascript in the browser.&lt;<span class="hljs-name">/p</span>&gt;
+      &lt;<span class="hljs-name">/div</span>&gt;
+      &lt;<span class="hljs-name">div class="footer"</span>&gt;
+        &lt;<span class="hljs-name">p</span>&gt;Thanks for taking KIEI-451!&lt;<span class="hljs-name">/p</span>&gt;
+        &lt;<span class="hljs-name">ul</span>&gt;
+          &lt;<span class="hljs-name">li</span>&gt;Contact&lt;<span class="hljs-name">/li</span>&gt;
+          &lt;<span class="hljs-name">li</span>&gt;Next Week&lt;<span class="hljs-name">/li</span>&gt;
+        &lt;<span class="hljs-name">/ul</span>&gt;
+      &lt;<span class="hljs-name">/div</span>&gt;
+    &lt;<span class="hljs-name">/body</span>&gt;
+  &lt;<span class="hljs-name">/html</span>&gt;
+  </code>
+</pre>
+
+          <div class="ml-8">
+            <div>
+              <h1 class="text-xl font-bold">Lessons</h1>
+              <ul class="list-disc">
+                <li>The DOM</li>
+                <li>Events</li>
+                <li>APIs</li>
+              </ul>
+              <p>This week, we're learning to use Javascript in the browser.</p>
+            </div>
+            <div>
+              <p>Thanks for taking KIEI-451!</p>
+              <ul class="list-disc">
+                <li>Contact</li>
+                <li>Next Week</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p>If we wanted to get to the list of lessons <span class="bg-orange-100 text-red-400 font-mono p-1">&lt;<span class="hljs-name">ul</span>&gt;</span> node using <span class="bg-orange-100 text-red-400 font-mono p-1">children</span>, it would look like this:</p>
+
+<pre class="m-0 p-0">
+  <code class="language-js">
+  document.children[0].children[1].children[0].children[1]
+  // => &lt;<span class="hljs-name">ul id="lessons"</span>&gt;...
+  </code>
+</pre>
+
+      <p>
+        🤢 <span class="ml-1.5">Yuck.</span> Not only is that inefficient and fragile code, but also just ugly and hard to follow.
+        Instead, let's use a built-in DOM object method <span class="bg-orange-100 text-red-400 font-mono p-1">querySelector()</span>.
+        Every DOM node has this method which will attempt to find a nested child node.
+        It expects a <strong>parameter</strong> to identify the element we're looking for.
+        And since javascript is meant to be used in the browser, it borrows an idea from another browser language - CSS selectors.
+      </p>
+
+      <table class="w-full text-left table-collapse my-4">
+        <tr>
+          <th class="font-bold text-gray-700 bg-gray-100 p-4">Selector</th>
+          <th class="font-bold text-gray-700 bg-gray-100 p-4">Example</th>
+          <th class="font-bold text-gray-700 bg-gray-100 p-4">Description</th>
+        </tr>
+        <tr>
+          <td class="w-1/4 text-red-400 bg-orange-100 font-mono p-4">element</td>
+          <td class="w-1/4 text-red-400 bg-orange-100 font-mono p-4">p</td>
+          <td class="p-4">Selects all &lt;<span class="hljs-name">p</span>&gt;</span> elements</td>
+        </tr>
+        <tr>
+          <td class="w-1/4 text-red-400 bg-orange-100 font-mono p-4">class</td>
+          <td class="w-1/4 text-red-400 bg-orange-100 font-mono p-4">.footer</td>
+          <td class="p-4">Selects all elements with class="footer"</td>
+        </tr>
+        <tr>
+          <td class="w-1/4 text-red-400 bg-orange-100 font-mono p-4">id</td>
+          <td class="w-1/4 text-red-400 bg-orange-100 font-mono p-4">#lessons</td>
+          <td class="p-4">Selects the element with id="lessons"</td>
+        </tr>
+      </table>
+
+      <p>
+        You can learn more about <a href="https://www.w3schools.com/cssref/css_selectors.asp" class="text-pink-500 underline">css selectors here</a>.
+      </p>
+
+      <p>
+        The list of lessons is a <span class="bg-orange-100 text-red-400 font-mono p-1">&lt;<span class="hljs-name">ul</span>&gt;</span> element with an <em>id</em> of <span class="bg-orange-100 text-red-400 font-mono p-1">lessons</span>.
+        Let's try it!
+      </p>
+
+<pre class="m-0 p-0">
+  <code class="language-js">
+  document.querySelector('#lessons')
+  // => &lt;<span class="hljs-name">ul id="lessons"</span>&gt;...
+  </code>
+</pre>
+
+      <p>
+        It should be immediately apparent that this is better.
+        It's more descriptive, less code, and less vulnerable to changes in the html structure.
+      </p>
+
+      <p>
+        Any basic css selector will work as the parameter.
+        However, it's important to know that this method only returns the first node it finds in the tree.
+        Let's see an example:
+      </p>
+
+<pre class="m-0 p-0">
+  <code class="language-js">
+  let footer = document.querySelector('.footer')
+  footer.querySelector('li')
+  // => &lt;<span class="hljs-name">li</span>&gt;Contact&lt;<span class="hljs-name">/li</span>&gt;
+  </code>
+</pre>
+
+      <p>
+        Every node in the DOM has the <span class="bg-orange-100 text-red-400 font-mono p-1">querySelector()</span> method.
+        So in this code, we first get the footer node and then search within it.
+      </p>
+
+      <p>
+        There are 2 <span class="bg-orange-100 text-red-400 font-mono p-1">&lt;<span class="hljs-name">li</span>&gt;</span> elements inside the footer.
+        But the method only returns 1, the first.
+        In order to return the second, we would need a more specific selector.
+        When using the <span class="bg-orange-100 text-red-400 font-mono p-1">querySelector()</span> method, the parameter should always be a unique selector (like <span class="bg-orange-100 text-red-400 font-mono p-1">#lessons</span> and <span class="bg-orange-100 text-red-400 font-mono p-1">.footer</span>).
+      </p>
+
+      <p>
+        However, sometimes we need to find all the elements matching a non-unique selector.
+        For example, maybe we actually want both <span class="bg-orange-100 text-red-400 font-mono p-1">&lt;<span class="hljs-name">li</span>&gt;</span> elements inside the footer.
+        In that case, we'll use a different built-in method, <span class="bg-orange-100 text-red-400 font-mono p-1">querySelectorAll()</span>.
+        Similarly to <span class="bg-orange-100 text-red-400 font-mono p-1">querySelector()</span>, it expects a css selector as a parameter:
+      </p>
+
+<pre class="m-0 p-0">
+  <code class="language-js">
+  document.querySelectorAll('li')
+  // => NodeList(2) [li, li]
+  </code>
+</pre>
+
+      <p>
+        Instead of returning a single node, the <span class="bg-orange-100 text-red-400 font-mono p-1">querySelectorAll()</span> method returns an <strong>array</strong> of nodes, called a <span class="bg-orange-100 text-red-400 font-mono p-1">NodeList</span>.
+      </p>
+
+      <p>Now we know how to find 1 or multiple nodes with javascript. That functionality is interesting, but not immediately useful. So let's put it to use.</p>
+
+      <h3 class="text-xl font-bold">Manipulating the DOM</h3>
+
+      <p>
+        In addition to searching the DOM, javascript is really good at manipulating the DOM.
+        Meaning, it can change the html structure and content even after it's been loaded and displayed to the user.
+      </p>
+
+      <p>
+        We'll start by using a new attribute of a node, <span class="bg-orange-100 text-red-400 font-mono p-1">innerHTML</span>, which is exactly what it sounds like - all of a node's nested html content.
+      </p>
+
+<pre class="m-0 p-0">
+  <code class="language-js">
+  let mainNode = document.querySelector('body')
+  mainNode.innerHTML
+  // => "
+  //    &lt;<span class="hljs-name">div class="main"</span>&gt;...&lt;<span class="hljs-name">/div</span>&gt;
+  //    &lt;<span class="hljs-name">div class="footer"</span>&gt;...&lt;<span class="hljs-name">/div</span>&gt;
+  //  "
+  </code>
+</pre>
+
+      <p>
+        Notice that the value of the <span class="bg-orange-100 text-red-400 font-mono p-1">innerHTML</span> attribute is different than a node.
+        For starters, it only includes the node's nested html (not the node itself).
+        It also can't be expanded like a node object.
+        It's just the raw html as a <em>String</em> (denoted by the wrapping quotes <span class="bg-orange-100 text-red-400 font-mono p-1">`"..."`</span>).
+        It has the same attributes and behaviors as any other <em>String</em> object (and none of a DOM node).
+      </p>
+
+      <p>
+        As with any object's attributes, we can simply re-assign the value of <span class="bg-orange-100 text-red-400 font-mono p-1">innerHTML</span>, which will modify it in the DOM.
+      </p>
+
+<pre class="m-0 p-0">
+  <code class="language-js">
+  let mainNode = document.querySelector('body')
+  mainNode.innerHTML = "&lt;<span class="hljs-name">div</span>&gt;This div replaced all of the html in the body.&lt;<span class="hljs-name">/div</span>&gt;"
+  // => "&lt;<span class="hljs-name">div</span>&gt;This div replaced all of the html in the body.&lt;<span class="hljs-name">/div</span>&gt;"
+  </code>
+</pre>
+
+      <div class="border my-4 p-4">
+        <div class="uppercase font-bold text-sm text-gray-500 mb-2">Result</div>
+        <div class="grid grid-cols-3 gap-4">
+
+<pre class="col-span-2 m-0 p-0">
+  <code class="language-html">
+  &lt;<span class="hljs-name">!DOCTYPE html</span>&gt;
+  &lt;<span class="hljs-name">html lang="en"</span>&gt;
+    &lt;<span class="hljs-name">head</span>&gt;
+      &lt;<span class="hljs-name">title</span>&gt;KIEI-451&lt;<span class="hljs-name">/title</span>&gt;
+    &lt;<span class="hljs-name">/head</span>&gt;
+    &lt;<span class="hljs-name">body</span>&gt;
+      &lt;<span class="hljs-name">div</span>&gt;This div replaced all of the html in the body.&lt;<span class="hljs-name">/div</span>&gt;
+    &lt;<span class="hljs-name">/body</span>&gt;
+  &lt;<span class="hljs-name">/html</span>&gt;
+  </code>
+</pre>
+
+          <div class="ml-8">This div replaced all of the html in the body.</div>
+        </div>
+      </div>
+
+      <p>
+        All of the html within the <span class="bg-orange-100 text-red-400 font-mono p-1">&lt;<span class="hljs-name">body</span>&gt;</span> should have been replaced with the new html.
+        The change is not permanent - it will be reverted when the page is reloaded.  New request, new response.
+      </p>
+
+      <p>
+        If we want to add another line that says "You can <em>reload</em> the page to see the original html.", we just need to re-assign the <span class="bg-orange-100 text-red-400 font-mono p-1">innerHTML</span> attribute. We could reconstruct all of the html, or get the existing html and then add to it:
+      </p>
+
+<pre class="m-0 p-0">
+  <code class="language-js">
+  let mainNode = document.querySelector('body')
+  let html = mainNode.innerHTML
+  let newLine = "&lt;<span class="hljs-name">div</span>&gt;You can &lt;<span class="hljs-name">em</span>&gt;reload&lt;<span class="hljs-name">/em</span>&gt; the page to see the original html.&lt;<span class="hljs-name">/div</span>&gt;"
+
+  mainNode.innerHTML = html + newLine
+  // => "
+  //    &lt;<span class="hljs-name">div</span>&gt;This div replaced all of the html in the body.&lt;<span class="hljs-name">/div</span>&gt;
+  //    &lt;<span class="hljs-name">div</span>&gt;You can &lt;<span class="hljs-name">em</span>&gt;reload&lt;<span class="hljs-name">/em</span>&gt; the page to see the original html.&lt;<span class="hljs-name">/div</span>&gt;
+  //  "
+  </code>
+</pre>
+
+      <div class="border my-4 p-4">
+        <div class="uppercase font-bold text-sm text-gray-500 mb-2">Result</div>
+        <div class="grid grid-cols-3 gap-4">
+
+<pre class="col-span-2 m-0 p-0">
+  <code class="language-html">
+  &lt;<span class="hljs-name">!DOCTYPE html</span>&gt;
+  &lt;<span class="hljs-name">html lang="en"</span>&gt;
+    &lt;<span class="hljs-name">head</span>&gt;
+      &lt;<span class="hljs-name">title</span>&gt;KIEI-451&lt;<span class="hljs-name">/title</span>&gt;
+    &lt;<span class="hljs-name">/head</span>&gt;
+    &lt;<span class="hljs-name">body</span>&gt;
+      &lt;<span class="hljs-name">div</span>&gt;This div replaced all of the html in the body.&lt;<span class="hljs-name">/div</span>&gt;
+      &lt;<span class="hljs-name">div</span>&gt;You can &lt;<span class="hljs-name">em</span>&gt;reload&lt;<span class="hljs-name">/em</span>&gt; the page to see the original html.&lt;<span class="hljs-name">/div</span>&gt;
+    &lt;<span class="hljs-name">/body</span>&gt;
+  &lt;<span class="hljs-name">/html</span>&gt;
+  </code>
+</pre>
+
+          <div class="ml-8">
+            <div>This div replaced all of the html in the body.</div>
+            <div>You can <em>reload</em> the page to see the original html.</div>
+          </div>
+        </div>
+      </div>
+
+      <p>
+        We could repeat this process as we continue to modify the html, but javascript has a built-in method to make it easier, <span class="bg-orange-100 text-red-400 font-mono p-1">insertAdjacentHTML()</span>.
+        This method takes 2 parameters – first, the name of <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML#Parameters" class="text-pink-500 underline">a position</a> indicating where we'd like to insert our HTML (e.g. <span class="bg-orange-100 text-red-400 font-mono p-1">beforeend</span> which will be inside the node, after its last child);
+        and, second, a <em>string</em> of HTML content.
+      </p>
+
+      <p>
+        Let's give credit where credit is due...
+      </p>
+
+<pre class="m-0 p-0">
+  <code class="language-js">
+  let mainNode = document.querySelector('body')
+  let yourName = "Grogu" // replace with your name!
+
+  mainNode.insertAdjacentHTML('beforeend', `
+    &lt;<span class="hljs-name">div</span>&gt;&lt;<span class="hljs-name">strong</span>&gt;-- Written by ${yourName} with Javascript!&lt;<span class="hljs-name">/strong</span>&gt;&lt;<span class="hljs-name">/div</span>&gt;
+  `)
+  // => undefined
+  </code>
+</pre>
+
+      <div class="border my-4 p-4">
+        <div class="uppercase font-bold text-sm text-gray-500 mb-2">Result</div>
+        <div class="grid grid-cols-3 gap-4">
+
+<pre class="col-span-2 m-0 p-0">
+  <code class="language-html">
+  &lt;<span class="hljs-name">!DOCTYPE html</span>&gt;
+  &lt;<span class="hljs-name">html lang="en"</span>&gt;
+    &lt;<span class="hljs-name">head</span>&gt;
+      &lt;<span class="hljs-name">title</span>&gt;KIEI-451&lt;<span class="hljs-name">/title</span>&gt;
+    &lt;<span class="hljs-name">/head</span>&gt;
+    &lt;<span class="hljs-name">body</span>&gt;
+      &lt;<span class="hljs-name">div</span>&gt;This div replaced all of the html in the body.&lt;<span class="hljs-name">/div</span>&gt;
+      &lt;<span class="hljs-name">div</span>&gt;You can &lt;<span class="hljs-name">em</span>&gt;reload&lt;<span class="hljs-name">/em</span>&gt; the page to see the original html.&lt;<span class="hljs-name">/div</span>&gt;
+      &lt;<span class="hljs-name">div</span>&gt;&lt;<span class="hljs-name">strong</span>&gt;-- Written by Grogu with Javascript!&lt;<span class="hljs-name">/strong</span>&gt;&lt;<span class="hljs-name">/div</span>&gt;
+    &lt;<span class="hljs-name">/body</span>&gt;
+  &lt;<span class="hljs-name">/html</span>&gt;
+  </code>
+</pre>
+
+          <div>
+            <div>This div replaced all of the html in the body.</div>
+            <div>You can <em>reload</em> the page to see the original html.</div>
+            <div><strong>-- Written by Grogu with Javascript!</strong></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</body>
+
+</html>

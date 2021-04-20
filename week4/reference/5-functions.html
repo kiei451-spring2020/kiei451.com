@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KIEI-451: Functions</title>
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism.min.css" rel="stylesheet"
+    type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/line-numbers/prism-line-numbers.min.css"
+    rel="stylesheet" type="text/css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/prism.min.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+</head>
+
+<body class="p-8 line-numbers">
+  <div class="container mx-auto">
+    <h1 class="text-4xl">Lesson 5: Functions</h1>
+    <div class="mt-4 space-y-4">
+      <p>Functions in JavaScript encapsulate functionality. We've already how functions work in some of the built-in objects in JavaScript, like a method within a String:</p>
+
+      <pre class="m-0 p-0">
+        <code class="language-js">let myString = 'brian'
+        myString.toUpperCase() // => 'BRIAN'</code>
+      </pre>
+
+      <p>In this example, all of the logic that goes into turning a String into all upper-case letters is <em>encapsulated</em> into the <span class="bg-orange-100 text-red-400 font-mono p-1">toUpperCase()</span> function. Code that uses this function doesn't need to know anything about its actual implementation, only that using it does the job it's expected to do, and returns its expected result. We've seen this already with the built-in functions we've used.</p>
+
+      <p>Before we get to <em>how</em> to create our own functions, let's first discuss <em>why</em> we'd want to. Organizing our code into functions makes our code more reusable, readable, and far more maintainable than code written in a linear fashion, especially as our applications become more complex.</p>
+
+      <p>Practically speaking, a function is a like a little mini-program within our application. It <strong>usually</strong> takes input and <strong>usually</strong> produces output. Emphasis on <strong>usually</strong>, because there are certainly cases where a function takes no input and/or produces no output. We'll get to that later.</p>
+
+      <pre class="m-0 p-0">
+        <code class="language-js">function yell(words) {
+          return `${words.toUpperCase()}!!!!!`
+        } 
+      
+        yell('tacos') // => 'TACOS!!!!!'</code>
+      </pre>
+
+      <p>Let's break this down:</p>
+      
+      <ul class="list-disc list-inside">
+        <li>We've defined a function called <span class="bg-orange-100 text-red-400 font-mono p-1">yell</span></li>
+        <li>This function takes one input – also known as the <strong>parameters</strong> of the function – in this case, we're giving the one parameter an arbitrary name of <span class="bg-orange-100 text-red-400 font-mono p-1">words</span>. This is just like a variable name; it can be whatever we want, and should be easy to read and understand.</li>
+        <li>The implementation of the function lives inside the curly braces (<span class="bg-orange-100 text-red-400 font-mono p-1">{}</span>) and returns an output. The return value of the function is, unsurprisingly, indicated by the keyword <span class="bg-orange-100 text-red-400 font-mono p-1">return</span>.</li>
+        <li>As we've seen before, calling a function is straightforward – we use the name of the function, followed by a set of parameters inside parentheses. If the function takes no parameters, we still need the parentheses – which is why we often see an empty of set of parentheses when functions are called.</li>
+      </ul>
+
+      <p>In short, we've taken the input of the function, performed some processing/transformation/action, and returned an output to the code that's using the function. Let's go deeper:</p>
+
+      <pre class="m-0 p-0">
+        <code class="language-js">function yell(words) {
+          return `${words.toUpperCase()}!!!!!`
+        } 
+
+        function makeFullName(firstName, lastName) {
+          return `${firstName} ${lastName}`
+        }
+      
+        console.log(yell(makeFullName('steph', 'curry'))) // => writes 'STEPH CURRY!!!!!' to the console
+        console.log(yell(makeFullName('james', 'harden'))) // => writes 'JAMES HARDEN!!!!!' to the console</code>
+      </pre>
+      
+      <p>Now we're using two of our own functions, and one other function that's built-in to JavaScript. And we're calling them all by chaining them together – that is, we're using the return value of <span class="bg-orange-100 text-red-400 font-mono p-1">makeFullName</span> as the input parameter of <span class="bg-orange-100 text-red-400 font-mono p-1">yell</span>, and using the return value of <span class="bg-orange-100 text-red-400 font-mono p-1">yell</span> as the input parameter of <span class="bg-orange-100 text-red-400 font-mono p-1">console.log</span>.</p>
+
+      <p>To illustrate the need for functions, let's consider how we might write the above example without using functions:</p>
+
+      <pre class="m-0 p-0">
+        <code class="language-js">let firstName = 'steph'
+        let lastName = 'curry'
+        
+        let fullName = `${firstName} ${lastName}`
+        console.log(`${fullName.toUpperCase()}!!!!!`)
+
+        firstName = 'james'
+        lastName = 'harden'
+        
+        fullName = `${firstName} ${lastName}`
+        console.log(`${fullName.toUpperCase()}!!!!!`)</code>
+      </pre>
+
+      <p>We can immediately see that very clear problems have emerged:</p>
+
+      <ol class="list-decimal list-inside">
+        <li>Repetition – we've repeated the same logic twice. This is error prone, and will be hard to understand as it grows over time. If we wanted to change the logic, even just slightly, we'd have to remember to change it in both places.</li>
+        <li>Scalability – if we wanted to process a list of 10, or maybe even 100 different names, using this approach would be next to impossible.</li>
+        <li>Organization – this code is just plain ugly, and reads more like code than it does like English. Ultimately, <strong>we want our code to read like a story, and not like code.</strong> By using well-named functions like <span class="bg-orange-100 text-red-400 font-mono p-1">yell</span> and <span class="bg-orange-100 text-red-400 font-mono p-1">makeFullName</span>, we've made the intention of our code much more clear to someone reading it.</li>
+      </ol>
+
+      <h3 class="text-xl font-bold">Declaring Functions</h3>
+
+      <p>So far, we've seen functions simply declared in the body of our code, using the <span class="bg-orange-100 text-red-400 font-mono p-1">function</span> keyword. There are couple of other ways that functions can be declared in our code, each serving their own purpose.</p>
+
+      <p>First, we can hold the value of a function in a variable, for later use in our code.</p>
+
+      <pre class="m-0 p-0">
+        <code class="language-js">let yell = function(words) {
+          return `${words.toUpperCase()}!!!!!`
+        }
+      
+        yell('tacos') // => TACOS!!!!!</code>
+      </pre>
+
+      <p>This is essentially the same as declaring the function as before, using the <span class="bg-orange-100 text-red-400 font-mono p-1">function</span> keyword. So what's the difference? This is where things get crazy, so hold on tight...</p>
+
+      <pre class="m-0 p-0">
+        <code class="language-js">let yell = function(words) {
+          return `${words.toUpperCase()}!!!!!`
+        }
+        
+        let whisper = function(words) {
+          return `shhhh... ${words.toLowerCase()}`
+        }
+        
+        let transformPlayerName = function(firstName, lastName, transformation) {
+          let fullName = `${firstName} ${lastName}`
+          return transformation(fullName)
+        }
+        
+        transformPlayerName('steph', 'curry', yell)
+        transformPlayerName('JAMES', 'HARDEN', whisper)</code></pre>
+
+      <p>There's a lot going on here, so let's break it down:</p>
+
+      <ol class="list-decimal list-inside">
+        <li>We're defining three different functions – one named <span class="bg-orange-100 text-red-400 font-mono p-1">yell</span>, another named <span class="bg-orange-100 text-red-400 font-mono p-1">whisper</span>, and a third named <span class="bg-orange-100 text-red-400 font-mono p-1">transformPlayerName</span>.</li>
+        <li><span class="bg-orange-100 text-red-400 font-mono p-1">yell</span> and <span class="bg-orange-100 text-red-400 font-mono p-1">whisper</span> are straightforward; they both take an input (parameter) of <span class="bg-orange-100 text-red-400 font-mono p-1">words</span>, perform a transformation of the input, and return back a new String.</li>
+        <li><span class="bg-orange-100 text-red-400 font-mono p-1">transformPlayerName</span> has some magic going on. It takes three parameters – <span class="bg-orange-100 text-red-400 font-mono p-1">firstName</span> and <span class="bg-orange-100 text-red-400 font-mono p-1">lastName</span> are self-explanatory – the third parameter, <span class="bg-orange-100 text-red-400 font-mono p-1">transformation</span>, is a <strong>function</strong>. This function gets used in the implementation – first, we concantenate the first name and last name, then we use that String as an argument to whatever function was passed in as input – it can be either <span class="bg-orange-100 text-red-400 font-mono p-1">yell</span> or <span class="bg-orange-100 text-red-400 font-mono p-1">whisper</span>, in this case.</li>
+      </ol>
+
+      <p>Passing a function as one of the input parameters allows us to dynamically change the function's behavior based on which function is passed in. What's more, we can use a previously defined function, like we've done, or we can pass a function we define on the fly. These functions don't have names (like ones we declare using the <span class="bg-orange-100 text-red-400 font-mono p-1">function</span> keyword or ones assigned to variable names do), so they're known as <em>anonymous functions</em>.</p>
+
+      <p>Let's look at a practical use-case using the example we've already built. Suppose we have the <span class="bg-orange-100 text-red-400 font-mono p-1">transformPlayerName</span> function, but we don't want to use <span class="bg-orange-100 text-red-400 font-mono p-1">yell</span> or <span class="bg-orange-100 text-red-400 font-mono p-1">whisper</span> as the transformation. Instead, we want to define our own, custom transformation. Anonymous functions to the rescue:</p>
+
+      <pre class="m-0 p-0">
+        <code class="language-js">let transformPlayerName = function(firstName, lastName, transformation) {
+          let fullName = `${firstName} ${lastName}`
+          return transformation(fullName)
+        }
+        
+        transformPlayerName('candy', 'man', function(words) {
+          return `${words} ${words} ${words}`
+        }) // => 'candy man candy man candy man'</code>
+      </pre>
+
+      <h3 class="text-xl font-bold">🤯 The Payoff</h3>
+
+      <p>This turns out to be a pretty commonly used pattern in JavaScript, especially when dealing with the web browser. We'll be looking at this quite a bit in the next unit of the course, but here's a quick intro to how we can apply these concepts to programming for the web.</p>
+
+      <p>Client-side web development is mostly centered around this basic workflow:</p>
+
+      <ol class="list-decimal list-inside">
+        <li><strong>Wait for an event to happen</strong>, such as the page being loaded or some action/input from the end-user.</li>
+        <li><strong>Determine what to do</strong> based on that event.</li>
+        <li>Change what the end-user is seeing on-screen, by <strong>manipulating the HTML</strong> of the page.</li>
+        <li>Repeat!</li>
+      </ol>
+
+      <p>Let's look at some example code, and dissect it further from there:</p>
+
+      <pre class="m-0 p-0">
+        <code class="language-js">window.addEventListener('DOMContentLoaded', function() {
+          for (let i = 0; i < 5; i++) { 
+            let outputElement = document.querySelector('.output')
+            outputElement.insertAdjacentHTML('beforeend', ` 
+              &lt;div class=&quot;text-3xl my-8&quot;&gt;This is the way.&lt;/div&gt;
+            `)
+          }
+        })</code>
+      </pre>
+
+      <p>This code looks daunting at first, especially if we've never seen anything like it before. But it's really a matter of following the pattern as described above, in code:</p>
+
+      <ol class="list-decimal list-inside">
+        <li><strong>Wait for an event to happen</strong> – <span class="bg-orange-100 text-red-400 font-mono p-1">window.addEventListener</span> is a built-in function in JavaScript. It takes two parameters – the event to listen for, and a function. In this case, the event we're waiting for is <span class="bg-orange-100 text-red-400 font-mono p-1">DOMContentLoaded</span> – simply JavaScript-speak for "when the page is loaded". The second parameter is a function describing what to do when the event happens.</li>
+        <li><strong>Determine what to do</strong> – we've decided that we're going to write "This is the way." in big, bold letters, 5 times.</li>
+        <li><strong>Manipulate the HTML</strong> – also known as "DOM manipulation" – what we're doing here is:</li>
+          <ol class="list-decimal list-inside ml-4">
+            <li>Find an existing HTML element on the page to manipulate. In this case, we've chosen an existing HTML element with the <em>class</em> of <span class="bg-orange-100 text-red-400 font-mono p-1">output</span>. Grab a reference to that element and store it in a variable, <span class="bg-orange-100 text-red-400 font-mono p-1">outputElement</span>. </li>
+            <li><span class="bg-orange-100 text-red-400 font-mono p-1">insertAdjacentHTML</span> is a built-in method that's used to insert HTML around or inside the element in question. This function takes two parameters as input – first, a position indicating where we'd like to insert our HTML; we almost always use <span class="bg-orange-100 text-red-400 font-mono p-1">beforeend</span>, i.e. inside the element, right before the closing tag. And the second parameter is a String of HTML content. We can use template literals (i.e. the backticks) to make it easier to insert full strings of HTML without worrying about the quotes.</li>
+            <li>Repeat 5 times.</li>
+          </ol>
+      </ol>
+
+      <p>We'll notice that we've written the function that reacts to the page load event as an anonymous function. Alternatively, we can also store this function in a variable – let's call it <span class="bg-orange-100 text-red-400 font-mono p-1">handlePageLoad</span>.</p>
+
+      <pre class="m-0 p-0">
+        <code class="language-js">let handlePageLoad = function() {
+          for (let i = 0; i < 5; i++) { 
+            let outputElement = document.querySelector('.output')
+            outputElement.insertAdjacentHTML('beforeend', ` 
+              &lt;div class=&quot;text-3xl my-8&quot;&gt;This is the way.&lt;/div&gt;
+            `)
+          }
+        }
+        window.addEventListener('DOMContentLoaded', handlePageLoad)</code>
+      </pre>
+
+      <p>Some developers prefer the first style, as all code for handling a single event is in one block of code, whereas other developers find the second style more readable. It 100% comes down to personal preference.</p>
+    </div>
+</body>
+
+</html>

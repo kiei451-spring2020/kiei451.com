@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KIEI-451: Week 4 Homework Instructions</title>
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism.min.css" rel="stylesheet" type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/line-numbers/prism-line-numbers.min.css"
+    rel="stylesheet" type="text/css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/prism.min.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+</head>
+
+<body class="p-8 line-numbers">
+  <div class="container mx-auto">
+    <h1 class="text-4xl my-4">Week 4 Homework</h1>
+    <div class="space-y-4">
+      <p>Your hot new rideshare startup, Noober, is ready to launch its MVP. Unfortunately, your front-end developer has suddenly left the company, and it's up to you to put together a minimal front-end for your drivers to use.</p>
+      <h3 class="text-xl font-bold">Getting Started</h3>
+      <p>Begin by heading over to <a href="https://github.com/kiei451-spring2021/noober-week4" class="text-pink-500 underline">the starter project</a> – select "Use this template", then create a repository in your own GitHub account called <span class="bg-orange-100 text-red-400 font-mono p-1">noober-week4</span>.</p>
+      <p>Open <span class="bg-orange-100 text-red-400 font-mono p-1">index.html</span> in Chrome. You'll see that your design team has put together a prototype of what the new UI should look like, with a few hard-coded examples. Your job is to make the page read the dynamic data that's been made available by your back-end development team and display it on the page – delete the hard-coded HTML when done.</p>
+      <h3 class="text-xl font-bold">The Goal</h3>
+      <p>The page should read the real data, found at <a href="https://kiei451.com/api/rides.json" class="text-pink-500 underline">https://kiei451.com/api/rides.json</a>. The work to do this is already provided – simply use the <span class="bg-orange-100 text-red-400 font-mono p-1">json</span> variable. The provided code writes out the value of this variable to the JavaScript Console in Chrome – inspect the structure of this data using the Console. Your job is to extract the data from this Object, transform it into HTML/Tailwind code that meets the design team's specifications, and append it to the <span class="bg-orange-100 text-red-400 font-mono p-1">div</span> with the class name <span class="bg-orange-100 text-red-400 font-mono p-1">rides</span>.</p>
+      <h3 class="text-xl font-bold">Rubric</h3>
+      <ol class="list-decimal list-inside">
+        <li>(1 point) Write the recipe (algorithm) for the approach you're taking in the comments. As previously discussed, it is highly recommended you do this first, then write the code.
+        <li>(4 points) Loop through all of the available rides contained within the <span class="bg-orange-100 text-red-400 font-mono p-1">json</span> variable provided. Traverse this data – print the level of service and information on each ride as illustrated by the design mockup (4 points). You should end up with all 100 rides on the page, along with the correct information on each ride and the level of service.</li>
+        <li>(1 point) Empty the <span class="bg-orange-100 text-red-400 font-mono p-1">rides</span> div element; you should be left with only an empty <span class="bg-orange-100 text-red-400 font-mono p-1">div</span> element in your HTML, but a page full of data.</li>
+      </ol>
+      <h3 class="text-xl font-bold">Guidelines for Submission</h3>
+      <p>All your work should take place in <span class="bg-orange-100 text-red-400 font-mono p-1">noober.js</span>; i.e. that should be the only file that's modified from the original project template. Your finished product should live in your GitHub account at <span class="bg-orange-100 text-red-400 font-mono p-1">https://github.com/&lt;your GitHub username&gt;/noober-week4</span>, and <strong>this URL should be submitted as the "website URL" for this assignment in Canvas.</strong></p>
+    </div>
+  </div>
+</body>
+
+</html>

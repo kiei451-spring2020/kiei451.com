@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KIEI-451: Loops</title>
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism.min.css" rel="stylesheet"
+    type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/line-numbers/prism-line-numbers.min.css"
+    rel="stylesheet" type="text/css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/prism.min.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+</head>
+
+<body class="p-8 line-numbers">
+  <div class="container mx-auto">
+    <h1 class="text-4xl">Lesson 4: Loops</h1>
+    <div class="mt-4 space-y-4">
+      <p>With all the modern advances in technology, the human brain still has a huge advantage in terms of storage, processing power, and energy efficiency when put up against a computer's brain. The one thing a computer has on us though? The ability to process a large amount of information quickly within its memory. With loops, we're going to start using the processing power of the computer in order to apply logic to data, and get answers to questions a lot more quickly than we could find ourselves.</p>
+
+      <p>Picture this: we've collected the driver's licenses or ID cards of everyone in this class in your hand. Our task is to figure out how many people have brown hair and are shorter than 5'8" tall. This would take us some time – we'd have to flip through each card, making sure we have the data correct, tallying the results somewhere, making sure we don't count someone twice or miss anyone. Worse still, if we added another 100, or maybe even 1000 cards to the job, we'd be in for a long night.</p>
+
+      <p>For a computer, this task is trivial. If we had even the most basic of databases or a CSV file to work with, this job could be done for thousands, even millions of people, in a matter of seconds.</p>
+
+      <p>It all starts with looping through the humble Array. To get things started, we're going to look at the same problem, with and without loops:</p>
+
+      <pre class="m-0 p-0">
+        <code class="language-js">let burger = ['buns', 'ground beef', 'cheese', 'onion', 'lettuce', 'tomato', 'ketchup']
+
+        console.log(`remember to buy ${burger[0]}`)
+        console.log(`remember to buy ${burger[1]}`)
+        console.log(`remember to buy ${burger[2]}`)
+        console.log(`remember to buy ${burger[3]}`)
+        console.log(`remember to buy ${burger[4]}`)
+        console.log(`remember to buy ${burger[5]}`)
+        console.log(`remember to buy ${burger[6]}`)</code>
+      </pre>
+
+      <p>The task is to simply print each ingredient to the JavaScript console – easy enough. This code certainly does the job. However, there are two, very clear issues with this:</p>
+
+      <ol class="list-decimal list-inside">
+        <li>The unknown – if we don't know how many ingredients are in the list?</li>
+        <li>Inefficiency – even if we did, what if there are thousands of ingredients?</li>
+      </ol>
+
+      <p>Let's write the first example, this time with a loop:</p>
+
+      <pre class="m-0 p-0">
+        <code class="language-js">let burger = ['buns', 'ground beef', 'cheese', 'onion', 'lettuce', 'tomato', 'ketchup']
+          
+        for (let i = 0; i < burger.length; i++) { 
+          console.log(`remember to buy ${burger[i]}`) 
+        }</code>
+        </pre>
+
+      <p>Let's look at this code in finer detail. The <span class="bg-orange-100 text-red-400 font-mono p-1">for</span> keyword means "we're going to do this a few times". Inside the parentheses, we then provide a small amount of code that determines exactly how many times we're talking about. Although we are almost always simply doing something for each element of the Array, this code allows our logic to be flexible – <em>in this course, you'll never do anything differently than this</em>. In any case, it is always in three parts:</p>
+
+      <ol class="list-decimal list-inside">
+        <li>Create a variable to use – you can call this variable anything you want – in this case, it's <span class="bg-orange-100 text-red-400 font-mono p-1">i</span>.</li>
+        <li>Specify a condition where we'll continue to loop, i.e. continue running the code that follows within the curly braces (<span class="bg-orange-100 text-red-400 font-mono p-1">{}</span>). If this condition returns <span class="bg-orange-100 text-red-400 font-mono p-1">false</span>, the loop ends. In this case, we'll continue to loop as long as <span class="bg-orange-100 text-red-400 font-mono p-1">i</span> remains less than the Array's length, i.e. number of elements.</li>
+        <li>Finally, we increment our counter variable by 1 with each iteration of the loop. The <span class="bg-orange-100 text-red-400 font-mono p-1">++</span> syntax is simply shorthand for <span class="bg-orange-100 text-red-400 font-mono p-1">i = i + 1</span>.</li>
+      </ol>
+
+      <p>From the computer's perspective, <strong>a loop doesn't do anything differently than what we did in the first
+          example</strong> – it just solves the unknown and inefficiency problems stated above. Now, it doesn't matter how many ingredients are in the burger
+        – our code processes them all. And it doesn't matter if there are 5, 10, or 10000 ingredients in the list. The
+        computer's brain is capable of running this code so fast, we won't even notice.</p>
+
+      <p class="italic">A side note: in game development or scientific computing, there may be a reason for a loop to traverse random or physics/simulation data, but in business programming, the main use-case for a loop is to iterate through an Array.</p>
+
+    </div>
+</body>
+
+</html>
