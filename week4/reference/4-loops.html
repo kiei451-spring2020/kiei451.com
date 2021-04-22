@@ -28,15 +28,15 @@
       <p>It all starts with looping through the humble Array. To get things started, we're going to look at the same problem, with and without loops:</p>
 
       <pre class="m-0 p-0">
-        <code class="language-js">let burger = ['buns', 'ground beef', 'cheese', 'onion', 'lettuce', 'tomato', 'ketchup']
+        <code class="language-js">let burgerIngredients = ['buns', 'ground beef', 'cheese', 'onion', 'lettuce', 'tomato', 'ketchup']
 
-        console.log(`remember to buy ${burger[0]}`)
-        console.log(`remember to buy ${burger[1]}`)
-        console.log(`remember to buy ${burger[2]}`)
-        console.log(`remember to buy ${burger[3]}`)
-        console.log(`remember to buy ${burger[4]}`)
-        console.log(`remember to buy ${burger[5]}`)
-        console.log(`remember to buy ${burger[6]}`)</code>
+        console.log(`remember to buy ${burgerIngredients[0]}`)
+        console.log(`remember to buy ${burgerIngredients[1]}`)
+        console.log(`remember to buy ${burgerIngredients[2]}`)
+        console.log(`remember to buy ${burgerIngredients[3]}`)
+        console.log(`remember to buy ${burgerIngredients[4]}`)
+        console.log(`remember to buy ${burgerIngredients[5]}`)
+        console.log(`remember to buy ${burgerIngredients[6]}`)</code>
       </pre>
 
       <p>The task is to simply print each ingredient to the JavaScript console – easy enough. This code certainly does the job. However, there are two, very clear issues with this:</p>
@@ -49,10 +49,10 @@
       <p>Let's write the first example, this time with a loop:</p>
 
       <pre class="m-0 p-0">
-        <code class="language-js">let burger = ['buns', 'ground beef', 'cheese', 'onion', 'lettuce', 'tomato', 'ketchup']
+        <code class="language-js">let burgerIngredients = ['buns', 'ground beef', 'cheese', 'onion', 'lettuce', 'tomato', 'ketchup']
           
-        for (let i = 0; i < burger.length; i++) { 
-          console.log(`remember to buy ${burger[i]}`) 
+        for (let i = 0; i < burgerIngredients.length; i++) { 
+          console.log(`remember to buy ${burgerIngredients[i]}`) 
         }</code>
         </pre>
 
