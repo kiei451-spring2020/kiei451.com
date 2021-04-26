@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KIEI-451: APIs</title>
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism.min.css" rel="stylesheet"
+    type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/line-numbers/prism-line-numbers.min.css"
+    rel="stylesheet" type="text/css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/prism.min.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+</head>
+
+<body>
+  <div class="container mx-auto my-8">
+    <div class="md:flex justify-between">
+      <div class="md:w-3/5">
+        <h1 class="text-lg uppercase text-gray-500 font-bold">KIEI-451: Introduction to Software Development</h1>
+        <h2 class="text-2xl font-bold">Javascript & the Browser - Part 2</h2>
+      </div>
+
+    </div>
+
+    <div class="mt-4 space-y-4">
+      <h3 class="text-xl font-bold">Application Programming Interface (API)</h3>
+
+      <p>
+        Until now, most of our data has lived in our code.
+        But more commonly, we need to fetch data from an external resource.
+      </p>
+
+      <p>
+        For example, if we want to display the current Bitcoin value (in USD) in our application,
+        we could google the value and then put it in our code.
+        It might look something like this:
+      </p>
+
+      <div class="border my-4 p-4">
+        <div class="grid grid-cols-3 gap-4">
+
+<pre class="col-span-2 m-0 p-0">
+  <code class="language-html">
+  &lt;<span class="hljs-name">div class="container"</span>&gt;
+    &lt;<span class="hljs-name">div</span>&gt;
+      &lt;<span class="hljs-name">h1</span>&gt;Bitcoin Value&lt;<span class="hljs-name">/h1</span>&gt;
+      &lt;<span class="hljs-name">h2 id="currency"</span>&gt;USD&lt;<span class="hljs-name">/h2</span>&gt;
+      &lt;<span class="hljs-name">p id="current"</span>&gt;
+        1 Bitcoin is 32198.48 USD
+      &lt;<span class="hljs-name">/p</span>&gt;
+    &lt;<span class="hljs-name">/div</span>&gt;
+  &lt;<span class="hljs-name">/div</span>&gt;
+  </code>
+</pre>
+
+          <div class="container ml-8">
+            <h1 class="text-xl font-bold">Bitcoin Value</h1>
+            <div class="my-4">
+              <h2 class="text-lg font-bold" id="currency">USD</h2>
+              <p id="current">
+                1 Bitcoin is 32198.48 USD
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p>
+        The problem with this approach is that Bitcoin's value isn't static.
+        It's always changing.
+        So our frontend developers would have to be working around the clock,
+        frantically updating the html with the most current weather data.
+      </p>
+
+      <p>
+        Instead, if we want to display real-time bitcoin data in our application,
+        we can write code to request the data from an external resource at the very moment when we need it.
+      </p>
+
+      <p>
+        That external resource is known as an API (Application Programming Interface).
+        APIs are like secret communication channels so applications can talk to each other in code.
+      </p>
+
+      <p>
+        APIs come in many different forms and often require registration for an API key - like a password.
+        But for this lesson, we'll use a very simple API that has open/free access provided by <a href="https://www.coindesk.com/" class="text-pink-500 underline">Coindesk</a>.
+      </p>
+
+      <p>
+        If interested, their API documentation (instructions written by developers for developers) can be found <a href="https://www.coindesk.com/coindesk-api" class="text-pink-500 underline">here</a>.
+        But the data we want can be found at the following URL.
+        Note that <span class="font-bold">USD</span> can be replaced with other currencies (e.g. <span class="font-bold">GBP</span> or <span class="font-bold">EUR</span>).
+      </p>
+
+<pre class="m-0 p-0">
+  <code class="language-html"><span class="bg-orange-100 text-red-400 font-mono p-1">https://api.coindesk.com/v1/bpi/currentprice/USD.json</span></code>
+</pre>
+
+      <p>
+        Try visiting the URL in your browser to see the data
+        (<em>it'll help to use a Chrome extension like <a href="https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc?hl=en" class="text-pink-500 underline">JSONView</a> or <a href="https://chrome.google.com/webstore/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa?hl=en" class="text-pink-500 underline">JSON Formatter</a></em>).
+        What does the data look like?
+      </p>
+
+      <p>
+        The opening <span class="bg-orange-100 text-red-400 font-mono p-1">{</span> and closing <span class="bg-orange-100 text-red-400 font-mono p-1">}</span> curly brackets indicate it's a javascript object.
+        The technical name for it is JSON (Javascript Object Notation) which is a commonly used format for transmitting data across the internet.
+        Many APIs like this one format their data as JSON for easy consumption.
+        It's not technically a javascript object, but we'll see in a moment how it becomes one.
+      </p>
+
+      <p>
+        Seeing the data in the browser is useful for understanding its structure,
+        but we actually need a way to read it with our code.
+        Similar to how we access URLs via the browser,
+        there's a built-in javascript function to access URLs in code:<span class="bg-orange-100 text-red-400 font-mono p-1">fetch()</span>.
+      </p>
+
+      <p>
+        There are several ways to use the <span class="bg-orange-100 text-red-400 font-mono p-1">fetch()</span> function, but let's start with the most basic.
+        It expects a string representing the API's URL (a.k.a. endpoint) as its first argument.
+      </p>
+
+<pre class="m-0 p-0">
+  <code class="language-js">fetch('https://api.coindesk.com/v1/bpi/currentprice/USD.json')</code>
+</pre>
+
+      <p>
+        We're not quite ready to use it, though.
+        Recall from the last lesson that some functions are asynchronous, meaning they will complete in their own time irrespective of any other code.
+        <span class="bg-orange-100 text-red-400 font-mono p-1">fetch()</span> is one of those functions, and for good reason.
+      </p>
+
+      <h3 class="text-xl font-bold">Async / Await</h3>
+
+      <p>
+        When application code "talks" to another application via an API, it has no knowledge of how long it will take the other application to complete its job and return a response.
+        APIs often respond very quickly, but not always and we can't expect that the response will be available immediately.
+      </p>
+
+      <p>
+        For example, maybe CoinDesk is experiencing an unusually high amount of traffic and their servers take a few seconds to build the response for our request.
+        Because of that unknown timing, the following code which is trying to log the API response to the console won't work.
+      </p>
+
+<pre class="m-0 p-0">
+  <code class="language-js">
+  let response = fetch('https://api.coindesk.com/v1/bpi/currentprice/USD.json')
+  console.log(response)
+  </code>
+</pre>
+
+    <p>
+      If you try running that code, you might expect to see in the console the JSON data you saw when visiting that URL in the browser.
+      But instead, you'll see something called a <em>Promise</em>.
+      We won't be exploring what that is, but all you need to know is that the response isn't available yet when we try to display it with <span class="bg-orange-100 text-red-400 font-mono p-1">console.log()</span>.
+    </p>
+
+    <p>
+      In order to use the response from the API, we need to tell our code to wait for the <span class="bg-orange-100 text-red-400 font-mono p-1">fetch()</span> function to finish.
+      Doing so requires a tiny addition to our code:
+    </p>
+
+<pre class="m-0 p-0">
+  <code class="language-js">
+  let response = await fetch('https://api.coindesk.com/v1/bpi/currentprice/USD.json')
+  console.log(response)
+  </code>
+</pre>
+
+    <p>By adding the keyword <span class="bg-orange-100 text-red-400 font-mono p-1">await</span>, the code now knows it needs to pause and wait for the response before executing the next line.</p>
+
+    <p>The result is a <span class="bg-orange-100 text-red-400 font-mono p-1">Response</span> object which has several attributes and methods:</p>
+
+    <ul>
+      <li class="list-disc list-inside">
+        Its attribute <span class="bg-orange-100 text-red-400 font-mono p-1">response.url</span> is the URL of the API request.
+      </li>
+      <li class="list-disc list-inside">
+        Its attribute <span class="bg-orange-100 text-red-400 font-mono p-1">response.status</span> is a <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status" class="text-pink-500 underline">status code</a>, in this case 200 meaning the request has succeeded.
+      </li>
+      <li>
+        Its method (a.k.a. function) <span class="bg-orange-100 text-red-400 font-mono p-1">response.json()</span> will return the same JSON data as seen from the browser.
+      </li>
+    </ul>
+
+    <p>That last bullet is a gotcha, though. Try it.</p>
+
+<pre class="m-0 p-0">
+  <code class="language-js">
+  let response = await fetch('https://api.coindesk.com/v1/bpi/currentprice/USD.json')
+  let json = response.json()
+  console.log(json)
+  </code>
+</pre>
+
+    <p>
+      Just like with <span class="bg-orange-100 text-red-400 font-mono p-1">fetch()</span>, the value is a <em>Promise</em> which means it too is not available immediately.
+      So, same as before, add the keyword <span class="bg-orange-100 text-red-400 font-mono p-1">await</span>.
+    </p>
+
+<pre class="m-0 p-0">
+  <code class="language-js">
+  let response = await fetch('https://api.coindesk.com/v1/bpi/currentprice/USD.json')
+  let json = await response.json()
+  console.log(json)
+  </code>
+</pre>
+
+    <div class="border my-4 p-4">
+      <div class="uppercase font-bold text-sm text-gray-500 mb-2">Result</div>
+
+<pre class="m-0 p-0">
+  <code class="language-js">
+  {
+    time: {
+      updated: "Jan 02, 2021 22:42:00 UTC"
+      updatedISO: "2021-02-31T22:42:00+00:00"
+      updateduk: "Jan 02, 2021 at 22:42 GMT"
+    },
+    disclaimer: "This data was produced from the CoinDesk Bitcoin Price Index (USD). Non-USD currency data converted using hourly conversion rate from openexchangerates.org",
+    bpi: {
+      USD: {
+        code: "USD",
+        rate: "32,198.4800",
+        description: "United States Dollar",
+        rate_float: 32198.48
+      }
+    }
+  }
+  </code>
+</pre>
+      <em>* Note the date and rate data above will be different. Also the currency will be different if replacing <span class="font-bold">USD</span> in the URL with a different currency.</em>
+    </div>
+
+    <p>And now, finally, the result is the data as seen from the browser.</p>
+
+    <p>
+      We will most often use <span class="bg-orange-100 text-red-400 font-mono p-1">await</span> in combination with <span class="bg-orange-100 text-red-400 font-mono p-1">fetch()</span>.
+      So the pattern will almost always be:
+    </p>
+
+<pre class="m-0 p-0">
+  <code class="language-js">
+  let response = await fetch(url)
+  let json = await response.json()
+  </code>
+</pre>
+
+    <p>
+      There's 1 other important modification: whenever using <span class="bg-orange-100 text-red-400 font-mono p-1">await</span> within another function, that function needs to be an <span class="bg-orange-100 text-red-400 font-mono p-1">async</span> function.
+      It's easier to see it in use.
+    </p>
+
+    <p>
+      We'll build a tiny application that converts an amount of Bitcoin into USD (or any desired currency).
+      To start, here's the HTML we'll use:
+    </p>
+
+<pre class="m-0 p-0">
+  <code class="language-html">
+  &lt;<span class="hljs-name">form class="bitcoin-form"</span>&gt;
+    &lt;<span class="hljs-name">label for="amount"</span>&gt;Enter amount of Bitcoin:&lt;<span class="hljs-name">/label</span>&gt;
+    &lt;<span class="hljs-name">input type="text" name="amount" id="amount"</span>&gt;
+    &lt;<span class="hljs-name">button</span>&gt;Convert&lt;<span class="hljs-name">/button</span>&gt;
+  &lt;<span class="hljs-name">/form</span>&gt;
+
+  &lt;<span class="hljs-name">div class="result"</span>&gt;&lt;<span class="hljs-name">/div</span>&gt;
+  </code>
+</pre>
+
+    <p>
+      The HTML includes a <span class="bg-orange-100 text-red-400 font-mono p-1">&lt;<span class="hljs-name">form</span>&gt;</span> with an <span class="bg-orange-100 text-red-400 font-mono p-1">&lt;<span class="hljs-name">input</span>&gt;</span> and a <span class="bg-orange-100 text-red-400 font-mono p-1">&lt;<span class="hljs-name">button</span>&gt;</span> to submit the form.
+      It also includes an empty <span class="bg-orange-100 text-red-400 font-mono p-1">&lt;<span class="hljs-name">div</span>&gt;</span>.
+    </p>
+
+    <p>
+      Next, let's add an event listener for when the form is submitted.
+      For now, let's log the value the user enters into the form's amount input.
+    </p>
+
+<pre class="m-0 p-0">
+  <code class="language-js">
+  document.querySelector('.bitcoin-form').addEventListener('submit', function(event) {
+    event.preventDefault()
+    let input = document.querySelector('#amount')
+    console.log(input.value)
+  })
+  </code>
+</pre>
+
+    <p>
+      We haven't used the submit event before.
+      It works like any other event type except the listener is attached to the form.
+      A click event on the button would also work.
+    </p>
+
+    <p>
+      To prevent the form from actually being submitted, we catch it first with <span class="bg-orange-100 text-red-400 font-mono p-1">preventDefault()</span>.
+    </p>
+
+    <p>
+      Next, it's time to get the current Bitcoin value from the API.
+      And let's move it to a function while we're at it.
+    </p>
+
+<pre class="m-0 p-0">
+  <code class="language-js">
+  async function getBitcoinValue() {
+    let response = await fetch('https://api.coindesk.com/v1/bpi/currentprice/USD.json')
+    let json = await response.json()
+    console.log(json)
+  }
+
+  document.querySelector('.bitcoin-form').addEventListener('submit', function(event) {
+    event.preventDefault()
+    let input = document.querySelector('#amount')
+    getBitcoinValue()
+  })
+  </code>
+</pre>
+
+    <p>
+      Note the use of the <span class="bg-orange-100 text-red-400 font-mono p-1">async</span> keyword when defining the function.
+      Because <span class="bg-orange-100 text-red-400 font-mono p-1">getBitcoinValue()</span> uses <span class="bg-orange-100 text-red-400 font-mono p-1">await</span>,
+      it also needs to have the <span class="bg-orange-100 text-red-400 font-mono p-1">async</span> keyword.
+      That's always the rule.
+    </p>
+
+    <ul>
+      <li class="list-disc list-inside">
+        <span class="bg-orange-100 text-red-400 font-mono p-1">await</span> goes with <span class="bg-orange-100 text-red-400 font-mono p-1">fetch()</span>
+      </li>
+      <li class="list-disc list-inside">
+        and <span class="bg-orange-100 text-red-400 font-mono p-1">async</span> goes with <span class="bg-orange-100 text-red-400 font-mono p-1">await</span>
+      </li>
+    </ul>
+
+    <p>
+      The last steps are to dig into the json data to find the <span class="bg-orange-100 text-red-400 font-mono p-1">rate_float</span> and then display the calculated value in USD.
+      (In order to perform a numeric calculation, we need to use the numeric value <span class="bg-orange-100 text-red-400 font-mono p-1">rate_float</span>, not the string value <span class="bg-orange-100 text-red-400 font-mono p-1">rate</span>).
+    </p>
+
+<pre class="m-0 p-0">
+  <code class="language-js">
+  async function getBitcoinValue(amountOfBitcoin) {
+    let response = await fetch('https://api.coindesk.com/v1/bpi/currentprice/USD.json')
+    let json = await response.json()
+    let rate = json.bpi.USD.rate_float
+    let convertedAmount = amountOfBitcoin * rate
+    document.querySelector('.result').innerHTML = `Your ${amountOfBitcoin} Bitcoin is worth ${convertedAmount} USD`
+  }
+
+  document.querySelector('.bitcoin-form').addEventListener('submit', function(event) {
+    event.preventDefault()
+    let input = document.querySelector('#amount')
+    getBitcoinValue(input.value)
+  })
+  </code>
+</pre>
+
+    <p>
+      The input value could be read within the <span class="bg-orange-100 text-red-400 font-mono p-1">getBitcoinValue</span> function.
+      Or it can be passed as an argument to the function as shown.
+      Choosing to pass the value means the function can focus on the API request and the conversion and doesn't care where the original value comes from.
+      Perhaps we want to reuse this function elsewhere.
+      It might be easier to repurpose if it doesn't need to know where the value comes from.
+      But either will have the same result, it's just a matter of preference and code design.
+    </p>
+
+    <p>Below is the final HTML & Javascript code as well as a gif of the feature in use.</p>
+
+<pre class="m-0 p-0">
+  <code class="language-html">
+  &lt;!-- HTML --&gt;
+  &lt;<span class="hljs-name">form class="bitcoin-form"</span>&gt;
+    &lt;<span class="hljs-name">label for="amount"</span>&gt;Enter amount of Bitcoin:&lt;<span class="hljs-name">/label</span>&gt;
+    &lt;<span class="hljs-name">input type="text" name="amount" id="amount"</span>&gt;
+    &lt;<span class="hljs-name">button</span>&gt;Convert&lt;<span class="hljs-name">/button</span>&gt;
+  &lt;<span class="hljs-name">/form</span>&gt;
+
+  &lt;<span class="hljs-name">div class="result"</span>&gt;&lt;<span class="hljs-name">/div</span>&gt;
+  </code>
+</pre>
+
+<pre class="m-0 p-0">
+  <code class="language-js">
+  // Javascript
+
+  async function getBitcoinValue(amountOfBitcoin) {
+    let response = await fetch('https://api.coindesk.com/v1/bpi/currentprice/USD.json')
+    let json = await response.json()
+    let rate = json.bpi.USD.rate_float
+    let convertedAmount = amountOfBitcoin * rate
+    document.querySelector('.result').innerHTML = `Your ${amountOfBitcoin} Bitcoin is worth ${convertedAmount} USD`
+  }
+
+  document.querySelector('.bitcoin-form').addEventListener('submit', function(event) {
+    event.preventDefault()
+    let input = document.querySelector('#amount')
+    getBitcoinValue(input.value)
+  })
+  </code>
+</pre>
+
+    <div class="border my-4 p-4">
+      <div class="uppercase font-bold text-sm text-gray-500 mb-2">Result</div>
+      <img src="../images/bitcoin.gif" class="h-32 object-contain">
+    </div>
+
+    <h3 class="text-xl font-bold">Request Methods: GET & POST</h3>
+
+    <p>
+      When a user visits a URL in the browser (by typing it into the address bar or clicking a link), the request is known as a <span class="font-bold">GET</span> request.
+      A <span class="font-bold">GET</span> request is the most common request made over the internet and usually refers to reading an application's content.
+      But not all requests are simply reading data.
+    </p>
+
+    <p>
+      In an earlier lesson on forms, we discovered that when submitting a form, the form data is appended to the url with a <span class="bg-orange-100 text-red-400 font-mono p-1">?</span> and a query string (a collection of key-value pairs representing the form input names and user-entered data).
+      That's fine in some cases, but often the data a user enters is private (think passwords or purchase info).
+      In those situations, it's not very secure for that data to be exposed in the URL.
+      So, instead of a <span class="font-bold">GET</span> request, when a user creates new data (e.g. posts a new instragam photo, submits an amazon order, adds a yelp review, etc), it's usually via a <span class="font-bold">POST</span> request.
+    </p>
+
+    <p>
+      These different requests are called <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods" class="text-pink-500 underline">HTTP methods</a>.
+      We won't spend much time on them right now, but it's important to know that sometimes when using <span class="bg-orange-100 text-red-400 font-mono p-1">fetch()</span>, the API expects a different HTTP method.
+      The Coindesk API endpoint is just a <span class="font-bold">GET</span> request, which makes sense since we're only reading data.
+    </p>
+
+    <p>
+      However, what if we wanted to save these calculated values to a database?
+      Let's do just that.
+    <p>
+
+    </p>
+      We have created an Airtable spreadsheet to store these calculated Bitcoin conversions.
+      The existing data can be seen <a href="https://airtable.com/shrJwS5g61y52Oury/tbljvEdk1DPce0vmJ" class="text-pink-500 underline">here</a>.
+    </p>
+
+    <p>
+      To <em>post</em> the calculated values, we can use the following JSON API endpoint:
+    </p>
+
+<pre>
+  <code class="language-html">
+  https://api.airtable.com/v0/applVUgpHTSjFnLMk/bitcoin_conversions
+  </code>
+</pre>
+
+    <p>
+      When making a <span class="font-bold">POST</span> request, the <span class="bg-orange-100 text-red-400 font-mono p-1">fetch()</span> function expects a 2nd argument,
+      which is a javascript object with several optional attributes, a few of which include:
+    </p>
+
+    <ul>
+      <li class="list-disc list-inside"><span class="bg-orange-100 text-red-400 font-mono p-1">method</span> is the HTTP method</li>
+      <li class="list-disc list-inside"><span class="bg-orange-100 text-red-400 font-mono p-1">body</span> is the data to be submitted</li>
+      <li class="list-disc list-inside"><span class="bg-orange-100 text-red-400 font-mono p-1">headers</span> is any expected meta data about the request</li>
+    </ul>
+
+    <p>For our API request, those attributes will have the following values:</p>
+
+    <ul>
+      <li class="list-disc list-inside">The <span class="bg-orange-100 text-red-400 font-mono p-1">method</span> will be "POST".</li>
+      <li class="list-disc list-inside">The <span class="bg-orange-100 text-red-400 font-mono p-1">body</span> will be a javascript object converted to JSON.</li>
+      <li class="list-disc list-inside">The <span class="bg-orange-100 text-red-400 font-mono p-1">headers</span> will be a javascript object with "Content-Type" and "Authorization" data.</li>
+    </ul>
+
+    <p>Here's the code added to the <span class="bg-orange-100 text-red-400 font-mono p-1">getBitcoinValue()</span> function:</p>
+
+<pre>
+  <code class="language-js">
+  async function getBitcoinValue(amountOfBitcoin) {
+    let response = await fetch('https://api.coindesk.com/v1/bpi/currentprice/USD.json')
+    let json = await response.json()
+    let rate = json.bpi.USD.rate_float
+    let convertedAmount = amountOfBitcoin * rate
+    document.querySelector('.result').innerHTML = `Your ${amountOfBitcoin} Bitcoin is worth ${convertedAmount} USD`
+
+    // post convertedAmount to Airtable API
+    let yourName = 'Grogu'
+    let bodyData = {
+      records: [
+        fields: {
+          bitcoin: amountOfBitcoin,
+          value: convertedAmount,
+          username: yourName
+        }
+      ]
+    }
+    await fetch('https://api.airtable.com/v0/applVUgpHTSjFnLMk/bitcoin_conversions', {
+      method: 'POST',
+      body: JSON.stringify(bodyData),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer key6kSCauSZNBpuUD'
+      },
+    })
+  }
+  </code>
+</pre>
+
+    <p>
+      This is a bit of a contrived example,
+      so we won't go through it in detail (we'll see more of relevant uses of <span class="font-bold">POST</span> in future lessons),
+      but briefly:
+    </p>
+
+    <ul>
+      <li class="list-disc list-inside">the <span class="bg-orange-100 text-red-400 font-mono p-1">bodyData</span> is the structure required by the API when submitting data</li>
+      <li class="list-disc list-inside">because it's a JSON API, we need to convert that javascript object into JSON using <span class="bg-orange-100 text-red-400 font-mono p-1">JSON.stringify()</span></li>
+      <li class="list-disc list-inside">
+        the <span class="bg-orange-100 text-red-400 font-mono p-1">headers</span>
+        <ul class="ml-8">
+          <li class="list-disc list-inside">identify that the <span class="bg-orange-100 text-red-400 font-mono p-1">Content-Type</span> is <span class="font-bold">application/json</span></li>
+          <li class="list-disc list-inside">and, provide an API token (basically a password to provide some security) as the <span class="bg-orange-100 text-red-400 font-mono p-1">Authorization</span></li>
+        </ul>
+    </ul>
+
+    <p>
+      If all goes well, after adding this code, when submitting the amount to convert to Bitcoin, a new record will be added to the Airtable database.
+      To check, refresh the table <a href="https://airtable.com/shrJwS5g61y52Oury/tbljvEdk1DPce0vmJ" class="text-pink-500 underline">here</a> and scroll to the bottom to see if it was created.
+    </p>
+
+    <p>Again, we'll learn more about using <span class="font-bold">POST</span> requests in future lessons.</p>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KIEI-451: Events</title>
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism.min.css" rel="stylesheet"
+    type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/line-numbers/prism-line-numbers.min.css"
+    rel="stylesheet" type="text/css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/prism.min.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+</head>
+
+<body>
+  <div class="container mx-auto my-8">
+    <div class="md:flex justify-between">
+      <div class="md:w-3/5">
+        <h1 class="text-lg uppercase text-gray-500 font-bold">KIEI-451: Introduction to Software Development</h1>
+        <h2 class="text-2xl font-bold">Javascript & the Browser - Part 2</h2>
+      </div>
+
+
+    </div>
+
+    <div class="mt-4 space-y-4">
+      <h3 class="text-xl font-bold">Javascript Events</h3>
+
+      <p>
+        As a user interacts with a webpage, their actions are quietly being monitored.
+        Kind of creepy, right?!
+        On its own, this monitoring is harmless - it only occurs locally in the user's browser and is immediately forgotten.
+      </p>
+      <p>
+        But it servers an important purpose.
+        Each user action - each hover, click, scroll, and change - gets announced as an event.
+        And if we listen for and hear some of those events, our code can react.
+        Combine these events with DOM manipulation and we get modern interactive web applications.
+      </p>
+
+      <h3 class="text-xl font-bold">Event Types</h3>
+
+      <p>
+        Below are some common events we'll be using, but there are <a href="https://developer.mozilla.org/en-US/docs/Web/Events" class="text-pink-500 underline">many more</a> to choose from.
+      </p>
+
+      <table class="w-full text-left table-collapse my-4">
+        <tr>
+          <th class="font-bold text-gray-700 bg-gray-100 p-4">Event</th>
+          <th class="font-bold text-gray-700 bg-gray-100 p-4">Description</th>
+        </tr>
+        <tr>
+          <td class="w-1/3 text-red-400 bg-orange-100 font-mono p-4">click</td>
+          <td class="p-4">A mouse pointer clicks on an html element (commonly a button or link)</td>
+        </tr>
+        <tr>
+          <td class="w-1/3 text-red-400 bg-orange-100 font-mono p-4">keyup</td>
+          <td class="p-4">Any key on the keyboard is released</td>
+        </tr>
+        <tr>
+          <td class="w-1/3 text-red-400 bg-orange-100 font-mono p-4">mouseover</td>
+          <td class="p-4">A mouse pointer moves over and hovers on an html element</td>
+        </tr>
+        <tr>
+          <td class="w-1/3 text-red-400 bg-orange-100 font-mono p-4">submit</td>
+          <td class="p-4">An html form is submitted</td>
+        </tr>
+      </table>
+
+      <h3 class="text-xl font-bold">Event Listening & Handling</h3>
+
+      <p>There are 2 components of event-driven javascript. The first is the event <strong>listener</strong> - a bit of code that identifies which node in your html will trigger the event and the type of event. Just as it sounds, its job is to <em>listen</em> to a node and wait for a specific event to fire. The second is the event <strong>handler</strong> - a function that will run when the event is heard (i.e. fires). Again, just as it sounds, its job is to <em>handle</em> the event by reacting to it with some defined behavior.</p>
+
+      <p>There are several ways to define listeners and handlers, but for now we use the built-in DOM function <span class="bg-orange-100 text-red-400 font-mono p-1">addEventListener()</span>. The function expects 2 parameters - the name of an event type and a function (anonymous or defined).</p>
+
+      <p>Let's add a listener to a button that will trigger an <strong>alert</strong> (a basic popup box and message which must be dismissed by the user).</p>
+
+      <div class='grid grid-cols-2 gap-4'>
+
+<pre class="m-0 p-0">
+  <code class="language-html">
+  &lt;!-- HTML --&gt;
+
+  &lt;<span class="hljs-name">button class="alert-button"</span>&gt;
+    Click me!
+  &lt;<span class="hljs-name">/button</span>&gt;
+  </code>
+</pre>
+
+<pre class="m-0 p-0">
+  <code class="language-js">
+  // Javascript
+
+  let button = document.querySelector('.alert-button')
+  button.addEventListener('click', async function(event) {
+    alert('the button was clicked!')
+  })
+  </code>
+</pre>
+
+      </div>
+
+      <div class="border my-4 p-4">
+        <div class="uppercase font-bold text-sm text-gray-500 mb-2">Result</div>
+        <img src="../images/alert.png" class="h-32 object-contain">
+      </div>
+
+      <p>
+        The html is a simple <span class="bg-orange-100 text-red-400 font-mono p-1">&lt;<span class="hljs-name">button</span>&gt;</span> that says "Click me!".
+        In the javascript, we first find the correct node with class <span class="bg-orange-100 text-red-400 font-mono p-1">"alert-button"</span>.
+        Then <span class="bg-orange-100 text-red-400 font-mono p-1">addEventListener()</span> adds an event <strong>listener</strong> to that element, waiting for a<span class="bg-orange-100 text-red-400 font-mono p-1">click</span> event.
+        When that event occurs, the <span class="bg-orange-100 text-red-400 font-mono p-1">alert()</span> code inside the anonymouse function runs.
+      </p>
+
+      <p>Another example. This time we'll handle a keyup event on a form input. We'll also use a defined function instead of anonymous.</p>
+
+      <div class='grid grid-cols-2 gap-4'>
+
+<pre class="m-0 p-0">
+  <code class="language-html">
+  &lt;!-- HTML --&gt;
+
+  &lt;<span class="hljs-name">form</span>&gt;
+    &lt;<span class="hljs-name">label for="first_name"</span>&gt;First Name&lt;<span class="hljs-name">/label</span>&gt;
+    &lt;<span class="hljs-name">input type="text" name="first_name" id="first_name"</span>&gt;
+  &lt;<span class="hljs-name">/form</span>&gt;
+
+  &lt;<span class="hljs-name">div id="greet"</span>&gt;&lt;<span class="hljs-name">/div</span>&gt;
+  </code>
+</pre>
+
+<pre class="m-0 p-0">
+  <code class="language-js">
+  // Javascript
+
+  let input = document.querySelector('#first_name')
+
+  input.addEventListener('keyup', async function(event) {
+    let first_name = input.value
+
+    if (first_name.length > 0) {
+      document.querySelector('#greet').innerHTML = `Hello, ${first_name}!`
+    } else {
+      document.querySelector('#greet').innerHTML = ""
+    }
+  })
+  </code>
+</pre>
+
+      </div>
+
+      <div class="border my-4 p-4">
+        <div class="uppercase font-bold text-sm text-gray-500 mb-2">Result</div>
+        <img src="../images/greet.gif" class="h-32 object-contain">
+      </div>
+
+      <p>
+        The html is a basic form with a label and input.
+        The input has an <em>id</em> of <span class="bg-orange-100 text-red-400 font-mono p-1">first_name</span>.
+        And below the form, there is an empty<span class="bg-orange-100 text-red-400 font-mono p-1">&lt;<span class="hljs-name">div</span>&gt;</span> with an <em>id</em> of<span class="bg-orange-100 text-red-400 font-mono p-1">greet</span>.
+      </p>
+
+      <p>
+        In the javascript, we first find the correct node with id <span class="bg-orange-100 text-red-400 font-mono p-1">"first_name"</span>.
+        Now let's look at the <span class="bg-orange-100 text-red-400 font-mono p-1">greet()</span> function we've written.
+      </p>
+
+      <p>
+        Form inputs have a special attribute, <span class="bg-orange-100 text-red-400 font-mono p-1">value</span>, which we're using to read what the user has typed.
+      </p>
+
+<pre class="m-0 p-0">
+  <code class="language-js">let first_name = input.value</code>
+</pre>
+
+      <p>
+        If there is a value (i.e. its length has at least 1 character), we replace the div's nested html with a constructed string.
+        Otherwise (i.e. if the input is empty), we clear the div's nested html by replacing it with an empty string.
+      </p>
+
+<pre class="m-0 p-0">
+  <code class="language-js">if (first_name.length > 0) {
+    document.querySelector('#greet').innerHTML = `Hello, ${first_name}!`
+  } else {
+    document.querySelector('#greet').innerHTML = ""
+  }</code>
+</pre>
+
+      <p>
+        Finally, we add the event listener. In this scenario, we want our javascript code to wait and listen for a <em>keyup</em> event to fire from our input element. On each occurrence of that event, our code will run the <span class="bg-orange-100 text-red-400 font-mono p-1">greet()</span> function.
+      </p>
+
+<pre class="m-0 p-0">
+  <code class="language-js">input.addEventListener('keyup', greet)</code>
+</pre>
+
+      <p>
+        Note that we don't want <span class="bg-orange-100 text-red-400 font-mono p-1">greet()</span> to run immediately when our code runs.
+        We want it to wait to run when the event fires.
+        So instead of calling <span class="bg-orange-100 text-red-400 font-mono p-1">greet()</span>, we only reference the function's name (<span class="bg-orange-100 text-red-400 font-mono p-1">greet</span> without the parentheses <span class="bg-orange-100 text-red-400 font-mono p-1">`()`</span>) when it's passed as a parameter of <span class="bg-orange-100 text-red-400 font-mono p-1">addEventListener()</span>.
+        We refer to this type of function as a <strong>callback</strong>.
+      </p>
+
+      <h3 class="text-xl font-bold">Callback Functions</h3>
+
+      <p>
+        A callback is a function that will be executed in the future only after another function has finished — hence the name <em>callback</em>, as in it will be "called back" later by the originating function.
+      </p>
+
+      <p>
+        Why does this matter?
+        Sometimes our code will run consecutively, or <span class="font-bold">synchronously</span>, from the first to last line.
+        In other words, some of our operations are started only after the preceding ones have completed.
+      </p>
+
+      <p>
+        But because javascript is event-driven, there are many times when our code has to wait for an event to occur before it executes.
+        In those situations, we can’t just call one function after another and hope they execute in the right order.
+        Some events will take longer than others to execute and some may never occur.
+        Or, as we'll see in the next section, when we request data from external sources, such as an external API, we don’t always know when the data respone will be ready.
+        In these instances some code needs to wait for the response, but we want other code to continue on.
+      <p>
+
+      </p>
+        These situations are where callback functions come in handy.
+        Using callbacks, we can allow some code to execute <span class="font-bold">asynchronously</span>.
+      </p>
+
+      <p>
+        To demonstrate this, let's try to write our code above without a callback.
+      </p>
+
+<pre class="m-0 p-0">
+  <code class="language-js">
+  input.addEventListener('keyup')
+  greet()
+  </code>
+</pre>
+
+      <p>
+        This code is broken and will raise an error because <span class="bg-orange-100 text-red-400 font-mono p-1">addEventListener()</span> is missing its second parameter.
+        But let's pretend that it works.
+        Hypothetically, what would happen?
+      </p>
+
+      <p>
+        The <span class="bg-orange-100 text-red-400 font-mono p-1">keyup</span> listener would be added to the <span class="bg-orange-100 text-red-400 font-mono p-1">&lt;<span class="hljs-name">input</span>&gt;</span>.
+        Then the <span class="bg-orange-100 text-red-400 font-mono p-1">greet()</span> function would run.
+        It checks the input's value which, at that moment in time is blank.
+        So, effectively nothing happens (the function will add an empty string to the div).
+        At some unknown future time, the user types a value into the input, but our <span class="bg-orange-100 text-red-400 font-mono p-1">greet</span> function has already executed.
+        Nothing further happens.
+      </p>
+
+      <p>
+        This admittedly contrived example is why we use callback functions - when we want to run a function chronologically even though we don't know or can't guarantee the chronology of events.
+      </p>
+
+      <p>
+        Let's look at a working example to understand how callbacks are used.
+      </p>
+
+<pre class="m-0 p-0">
+  <code class="language-js">
+  function doTask(name, milliseconds) {
+    console.log(`starting ${name}`)
+    console.log(`finished ${name} after ${milliseconds} milliseconds`)
+  }
+
+  doTask('first task', 1000)
+  doTask('second task', 1000)
+  </code>
+</pre>
+
+    <div class="border my-4 p-4">
+      <div class="uppercase font-bold text-sm text-gray-500 mb-2">Result</div>
+      starting first task<br>
+      finished first task after 1000 milliseconds<br>
+      starting second task<br>
+      finished second task after 1000 milliseconds<br>
+    </div>
+
+    <p>
+      In the <span class="bg-orange-100 text-red-400 font-mono p-1">doTask()</span> function, our code simply logs that a task is starting and then logs that it finished.
+      It accepts 2 parameters, a task name and a time in milliseconds (we'll see why milliseconds in just a moment).
+      Nothing surprising here.
+      In the console log, we see the expected order of logs, "first task" starting and finished, then "second task" starting and finished.
+    </p>
+
+    <p>
+      You probably noticed that the tasks don't really take 1000 milliseconds to be "finished".
+      Let's fix that.
+      We'll use a built-in function <span class="bg-orange-100 text-red-400 font-mono p-1">setTimeout()</span> which executes code only after a designated period of time has elapsed.
+      The function expects 2 parameters, a callback function, and the time to wait in milliseconds.
+      And to make things just a bit more obvious, we'll make the first task take 3000 milliseconds (i.e. 3 seconds) to complete.
+    </p>
+
+<pre class="m-0 p-0">
+  <code class="language-js">
+  function doTask(name, milliseconds) {
+    console.log(`starting ${name}`)
+
+    setTimeout(function() {
+      console.log(`finished ${name} after ${milliseconds} milliseconds`)
+    }, milliseconds)
+  }
+
+  doTask('first task', 3000)
+  doTask('second task', 1000)
+  </code>
+</pre>
+
+    <div class="border my-4 p-4">
+      <div class="uppercase font-bold text-sm text-gray-500 mb-2">Result</div>
+      starting first task<br>
+      starting second task<br>
+      finished second task after 1000 milliseconds<br>
+      finished first task after 3000 milliseconds<br>
+    </div>
+
+    <p>
+      Interesting!
+      Now our code is executing in an unexpected order.
+      The "first task" starts and then the "second task" starts.
+      We don't see it, but 2 timers also start (when <span class="bg-orange-100 text-red-400 font-mono p-1">setTimeout()</span> is called in each function call).
+      When the "second task" timer hits 1 second, the "second task" is finished.
+      And lastly, when the "first task" timer hits 3 seconds, the "first task" is finished.
+    </p>
+
+    <p>
+      Callback functions execute <strong>asynchronously</strong>.
+      Meaning when our code reaches a callback function, it recognizes it as a callback and then moves on.
+      In the above example, that's how the "second task" starts before the "first task" ends.
+      The callback function in <span class="bg-orange-100 text-red-400 font-mono p-1">setTimeout()</span> of the "first task" is recognized but executes asynchronously while, at the same time, the code moves on to log that the "second task" is starting.
+      And then eventually, the callbacks in both tasks complete when they're supposed to but irrespective of each other or any other code.
+    </p>
+
+    <p>Before we move on, let's put this together with event listeners.</p>
+
+    <p>
+      We'll write some html that has 3 buttons, each with a click event listener, all children of a surrounding div element.
+      The first button will change the background color of the div to purple.
+      The second button will change it to black.
+      And the third will change it to white.
+      For brevity, we'll ignore any other css, but there is some css used to style the buttons as they appear.
+    </p>
+
+    <div class='grid grid-cols-2 gap-4'>
+
+<pre class="m-0 p-0">
+  <code class="language-html">
+  &lt;!-- HTML --&gt;
+
+  &lt;<span class="hljs-name">div</span>&gt;
+    &lt;<span class="hljs-name">div class="main"</span>&gt;
+      &lt;<span class="hljs-name">button class="button-purple"</span>&gt;
+        Go Wildcats!
+      &lt;<span class="hljs-name">/button</span>&gt;
+      &lt;<span class="hljs-name">button class="button-black"</span>&gt;
+        Go Wildcats!
+      &lt;<span class="hljs-name">/button</span>&gt;
+      &lt;<span class="hljs-name">button class="button-white"</span>&gt;
+        Go Wildcats!
+      &lt;<span class="hljs-name">/button</span>&gt;
+    &lt;<span class="hljs-name">/div</span>&gt;
+
+    &lt;<span class="hljs-name">ol class="clicked-list"</span>&gt;&lt;<span class="hljs-name">/ol</span>&gt;
+  &lt;<span class="hljs-name">/div</span>&gt;
+  </code>
+</pre>
+
+<pre class="m-0 p-0">
+  <code class="language-js">
+  // Javascript
+
+  function changeBackground(color) {
+    setTimeout(function() {
+      document.querySelector('.main').style.backgroundColor = color
+    }, 8000)
+
+    let list = document.querySelector('.clicked-list')
+    list.insertAdjacentHTML('beforeend', `&lt;<span class="hljs-name">li</span>&gt;${color}&lt;<span class="hljs-name">/li</span>&gt;`)
+  }
+
+  function purpleBackground() { changeBackground('purple') }
+  function blackBackground() { changeBackground('black') }
+  function whiteBackground() { changeBackground('white') }
+
+  document.querySelector('.button-purple').addEventListener('click', purpleBackground)
+  document.querySelector('.button-black').addEventListener('click', blackBackground)
+  document.querySelector('.button-white').addEventListener('click', whiteBackground)
+  </code>
+</pre>
+
+      </div>
+
+      <div class="border my-4 p-4">
+        <div class="uppercase font-bold text-sm text-gray-500 mb-2">Result</div>
+        <img src="../images/wildcat-buttons.gif" class="h-32 object-contain">
+      </div>
+
+      <p>
+        The html on the left should be self-explanatory, but let's breakdown the javascript on the right.
+      </p>
+
+      <p>
+        We have a function <span class="bg-orange-100 text-red-400 font-mono p-1">changeBackground()</span> that expects a single parameter, a string of a css color name.
+      </p>
+
+      <p>
+        First, we're modifying the background color.
+        We're using the <span class="bg-orange-100 text-red-400 font-mono p-1">setTimeout()</span> function with an 8 second delay to demonstrate asynchronous behavior - the user can continue to click without waiting for earlier events to finish executing.
+        The anonymous callback function handles updating the background color once time has elapsed.
+      </p>
+
+<pre class="m-0 p-0">
+  <code class="language-js">setTimeout(function() {
+    document.querySelector('.main').style.backgroundColor = color
+  }, 8000)</code>
+</pre>
+
+      <p>
+        This is the first time we're seeing a node's <span class="bg-orange-100 text-red-400 font-mono p-1">style</span> attribute.
+        It's another object with its own properties, one of which is <span class="bg-orange-100 text-red-400 font-mono p-1">backgroundColor</span>.
+        Re-assigning its value updates the node's background-color style.
+      </p>
+
+      <p>
+        The next 2 lines of the function are finding the <span class="bg-orange-100 text-red-400 font-mono p-1">&lt;<span class="hljs-name">ol</span>&gt;</span> element and inserting an <span class="bg-orange-100 text-red-400 font-mono p-1">&lt;<span class="hljs-name">li</span>&gt;</span> element with the name of the color.
+      </p>
+
+<pre class="m-0 p-0">
+  <code class="language-js">let list = document.querySelector('.clicked-list')
+  list.insertAdjacentHTML('beforeend', `<li>${color}</li>`)</code>
+</pre>
+
+      <p>
+        Note that this code runs even though the background color has not yet changed.
+        Normally code executes from top to bottom in order.
+        But this is a good example of how a callback function executes asynchronously on its own time.
+      </p>
+
+      <p>
+        We're intentionally using <span class="bg-orange-100 text-red-400 font-mono p-1">insertAdjacentHTML()</span> instead of assigning the <span class="bg-orange-100 text-red-400 font-mono p-1">innerHTML</span> attribute because we want to add to this list on each click and not replace it entirely.
+      </p>
+
+      <p>
+        The last step is to add the event listeners and handlers.
+        To make the code easier to read, we can write 3 new functions for each color change and use those as the handlers.
+        We then find each button, call its <span class="bg-orange-100 text-red-400 font-mono p-1">addEventListener()</span> function, pass it the <em>click</em> event and the appropriate callback function.
+      </p>
+
+<pre class="m-0 p-0">
+  <code class="language-js">function purpleBackground() { changeBackground('purple') }
+  document.querySelector('.button-purple').addEventListener('click', purpleBackground)</code>
+</pre>
+
+      <p>
+        As a user interacts with this application, any number of click events are firing that will be handled asynchronously.
+        Although our code is explicitly forcing an 8-second delay, in a real application we often don't know how long any event will need before executing.
+        Callback functions make it possible to handle this uncertainty without freezing the user experience.
+        Users can continue interacting without any down time.
+      </p>
+
+      <p>
+        You may be wondering if there are any circumstances when we need to wait for an asynchronous function to finish before some other behavior begins.
+        The answer is yes, occassionally, and we'll learn about that next when we start <a href="fetch.html" class="text-pink-500 underline">talking to APIs</a>.
+      </p>
+
+    </div>
+  </div>
+
+</body>
+
+</html>

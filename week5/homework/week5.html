@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KIEI-451: Week 5 Homework Instructions</title>
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism.min.css" rel="stylesheet" type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/line-numbers/prism-line-numbers.min.css"
+    rel="stylesheet" type="text/css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/prism.min.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+</head>
+
+<body class="p-8 line-numbers">
+  <div class="container mx-auto">
+    <h1 class="text-4xl my-4">Week 5 Homework</h1>
+    <div class="space-y-4">
+      <p>Continue the "Weathernator" application we started during lab; deliver a complete weather application using the WeatherAPI.com API as a source for weather data.</p>
+      <h3 class="text-xl font-bold">Getting Started</h3>
+      <p>Use the code from lab as your starting point (a solution was provided in class, if you'd like to start there). Create a new repository in your own GitHub account called <span class="bg-orange-100 text-red-400 font-mono p-1">hw5</span>, a HTML file called <span class="bg-orange-100 text-red-400 font-mono p-1">week5.html</span> and a JS file called <span class="bg-orange-100 text-red-400 font-mono p-1">week5.js</span>. Clone this repository to your computer and start from there.</p>
+      <h3 class="text-xl font-bold">Rubric</h3>
+      <ol class="list-decimal list-inside">
+        <li>(1 point) Write the recipe (algorithm) for the approach you're taking in the comments. As previously discussed, it is highly recommended you do this first, then write the code.
+        <li>(2 points) Accept a number of days from the end-user, in addition to the free-text location done during lab. Use these two inputs (along with your WeatherAPI.com API key) to retrieve JSON data from WeatherAPI.com.</li>
+        <li>(2 points) Display the current weather conditions for the given location – display the parsed location (city and state/region), current temperature, and current conditions (e.g. "partly cloudy").</li>
+        <li>(4 points) Using a for-loop and what you know about manipulating the DOM, display a daily forecast. For the number of days provided by the end-user, display the weather forecast; e.g. if the end-user asks for 5 days, show a 5-day forecast. Each day of the forecast should show (at a minimum) the date, high and low temperature, and a summary of the conditions (e.g. "partly cloudy") for each day.</li>
+        <li>(1 point) In the HTML file, delete the hard-coded HTML provided as examples. You should be left with two empty DIVs for <span class="bg-orange-100 text-red-400 font-mono p-1">current</span> and <span class="bg-orange-100 text-red-400 font-mono p-1">forecast</span>.</li>
+      </ol>
+      <h3 class="text-xl font-bold">Guidelines for Submission</h3>
+      <p>Your finished product should live in your GitHub account at <span class="bg-orange-100 text-red-400 font-mono p-1">https://github.com/&lt;your GitHub username&gt;/hw5</span>, and <strong>this URL should be submitted as the "website URL" for this assignment in Canvas.</strong></p>
+    </div>
+  </div>
+</body>
+
+</html>
