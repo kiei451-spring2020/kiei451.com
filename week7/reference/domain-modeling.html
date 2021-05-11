@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KIEI-451: Domain Modeling</title>
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism.min.css" rel="stylesheet"
+    type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/line-numbers/prism-line-numbers.min.css"
+    rel="stylesheet" type="text/css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/prism.min.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+</head>
+
+<body>
+  <div class="container mx-auto my-8">
+    <div class="md:flex justify-between">
+      <div class="md:w-3/5">
+        <h1 class="text-lg uppercase text-gray-500 font-bold">KIEI-451: Introduction to Software Development</h1>
+        <h2 class="text-2xl font-bold">Domain Modeling</h2>
+      </div>
+
+
+    </div>
+
+    <div class="mt-4 space-y-4">
+
+      <h1 class="text-xl font-bold">How To: Start Domain Modeling</h1>
+      <p>When we build an app, we represent real-world entities inside the virtualized world of our software.  Our job as software developers is to represent those real-world things as best we can.  How do we begin?  We first identify all of those entities which comprise our particular domain of concern, as well as the interconnections that exist between them.</p>
+      <p>Identifying all of the real-world things that our software must contain is harder than it sounds.  But here&#39;s the good news.  We do not have to figure out our entire domain model up front.  Instead, we start by identifying only those entities that are most central and most obvious to our application.  Identifying the first few models is more than enough to begin the initial version of our app.</p>
+      <p>From now on, we will call each real-world entity a <em>model</em>.</p>
+      <p>And all of our models, together with all of their relationships, is called our <em>domain model</em>.</p>
+      <h3 class="text-xl font-bold">Models and Their Attributes</h3>
+      <p>Most models have data associated with them.</p>
+      <p>For example, suppose we identify a <em>User</em> as one of our models.  Users do not exist in theory.  Users exist in our real world. They are the actual people that use our software.</p>
+      <p>So our next step is to figure out what data we need to keep track of when we think of our users.  We will probably need to track:</p>
+      <ul class="list-disc list-inside">
+      <li>their name</li>
+      <li>email address</li>
+      <li>password</li>
+      <li>anything else that belongs in a typical user profile.</li>
+      </ul>
+      <p>The data set pertaining to a given model is called the model&#39;s <em>attributes</em>.</p>
+      <p>Here&#39;s another example.  Suppose we&#39;re building an online newspaper.  Can you name at least one model that we will need?</p>
+      <p>How about articles?  Ok, what data would we need to keep track of an article?</p>
+      <ul class="list-disc list-inside">
+      <li>headline</li>
+      <li>body text of the article</li>
+      <li>author&#39;s name</li>
+      <li>date</li>
+      </ul>
+      <p>Hopefully you&#39;re getting the idea that to start building our domain model, we identify <em>models</em> - real-world things that our software must emulate - and then identify the model&#39;s primary <em>attributes</em>.</p>
+      <h3 class="text-xl font-bold">Database-Backed Models</h3>
+      <p>A model and its attributes can be neatly represented in a <em>database table (relational database)</em> or <em>collection (NoSQL database)</em>.  If you&#39;re familiar with an Excel spreadsheet, then you already know what a database table/collection is: a set of rows and columns.</p>
+      <ul class="list-disc list-inside">
+      <li>Each column represents a particular model <em>attribute</em></li>
+      <li>Each row represents a unique model <em>instance</em></li>
+      <li>All rows share exactly the same set of columns</li>
+      </ul>
+      <p>Each model will need a different table/collection, because the column definitions will be different for every model.</p>
+      <h3 class="text-xl font-bold">Naming Conventions</h3>
+      <p>While there exist several plausible approaches to model and attribute representation, we will adopt conventions set forth by many web development frameworks today:</p>
+      <ol class="list-decimal list-inside">
+      <li>Collection/table names will be lower-case and preferably one word, i.e. <code>products</code>, <code>books</code>, <code>movies</code>.  Multi-word names are joined together using lower <a href="https://en.wikipedia.org/wiki/Camel_case" class="text-pink-500 underline" target="_blank">camel case</a>, starting with lower-case, separating words with capital letters into a single word identifier: <code>productCategories</code>, <code>buildingMaterials</code>. This matches conventions for JavaScript variable naming.</li>
+      <li>Collection/table names must be <strong>pluralized nouns</strong>.</li>
+      <li>Attribute names are <strong>lower camel-case only</strong>: <code>title</code>, <code>firstName</code>, <code>city</code>.</li>
+      <li>Every collection/table must have an attribute for its <em>document ID</em>, that is, an attribute that uniquely identifies each record. This is typically auto-assigned by the database software.</li>
+      <li>Every attribute must have a specified data type: number, string, timestamp, or boolean.</li>
+      <li>Attributes can hold a single atomic value only, not a list of values.</li>
+      <li>Attributes which are intended to store the identifier of a row from a different table are called <em>foreign keys</em> and use the <code>Id</code> suffix, e.g.: <code>directorId</code>, <code>productId</code>, <code>movieId</code>.</li>
+      </ol>
+      <h3 class="text-xl font-bold">Attribute Types You Can Use</h3>
+      <table class="w-full">
+        <thead>
+          <tr>
+            <th class="p-2">Type</th>
+            <th class="p-2">Description</th>
+            <th class="p-2">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="p-2 border">number</td>
+            <td class="p-2 border">An integer or floating-point decimal</td>
+            <td class="p-2 border">Good for prices, numbers, quantity, etc.</td>
+          </tr>
+          <tr>
+            <td class="p-2 border">string</td>
+            <td class="p-2 border">Text</td>
+            <td class="p-2 border">Good for a headline, title, tweets, website URLs, articles, etc.</td>
+          </tr>
+          <tr>
+            <td class="p-2 border">boolean</td>
+            <td class="p-2 border"><b>true</b> or <b>false</b></td>
+            <td class="p-2 border">Good for checkboxes, on/off states, yes/no answers, etc.</td>
+          </tr>
+          <tr>
+            <td class="p-2 border">timestamp</td>
+            <td class="p-2 border">A date and time</td>
+            <td class="p-2 border"></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 class="text-xl font-bold"">Example: Collections for imdb.com (initial version)</h3>
+      <table class="w-full">
+        <thead>
+          <tr>
+            <td colspan="5" style="background: #fffbce; font-weight:bold">movies</td>
+          </tr>
+          <tr>
+            <th class="p-2">id<br>(auto-generated)</th>
+            <th class="p-2">title<br>(string)</th>
+            <th class="p-2">directorId<br>(string)</th>
+            <th class="p-2">year<br>(number)</th>
+            <th class="p-2">synopsis<br>(string)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="p-2 border">51bac9ec4eaa0f6dda00</td>
+            <td class="p-2 border">Raiders of the Lost Ark</td>
+            <td class="p-2 border">25efdd6a55ae58eb258d</td>
+            <td class="p-2 border">1983</td>
+            <td class="p-2 border">I hate rats.</td>
+          </tr>
+          <tr>
+            <td class="p-2 border">2844f5ead675ebc81dc5</td>
+            <td class="p-2 border">Apollo 13</td>
+            <td class="p-2 border">e59f19af1d4f5b11b771</td>
+            <td class="p-2 border">1995</td>
+            <td class="p-2 border">Wonderful documentary about computers, people, and error messages.</td>
+          </tr>
+          <tr>
+            <td class="p-2 border">7bfdb14192e1bdeed614</td>
+            <td class="p-2 border">Lincoln</td>
+            <td class="p-2 border">25efdd6a55ae58eb258d</td>
+            <td class="p-2 border">2012</td>
+            <td class="p-2 border">He dies at the end.  (Oops, should have said &quot;spoiler alert&quot;)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table class="w-full">
+        <thead>
+          <tr>
+            <td colspan="5" style="background: #fffbce; font-weight:bold">directors</td>
+          </tr>
+          <tr>
+            <th class="p-2">id<br>(auto-generated)</th>
+            <th class="p-2">name<br>(string)</th>
+            <th class="p-2">photoUrl<br>(string)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="p-2 border">e59f19af1d4f5b11b771</td>
+            <td class="p-2 border">Ron Howard</td>
+            <td class="p-2 border"><a href="http://ia.media-imdb.com/images/M/MV5BMTkzMDczMjUxNF5BMl5BanBnXkFtZTcwODY1Njk5Mg@@._V1_SX214_CR0,0,214,317_.jpg">http://ia.media-imdb.com/images/M/MV5BMTkzMDczMjUxNF5BMl5BanBnXkFtZTcwODY1Njk5Mg@@._V1_SX214_CR0,0,214,317_.jpg</a></td>
+          </tr>
+          <tr>
+            <td class="p-2 border">25efdd6a55ae58eb258d</td>
+            <td class="p-2 border">Steven Spielberg</td>
+            <td class="p-2 border"><a href="http://ia.media-imdb.com/images/M/MV5BMTY1NjAzNzE1MV5BMl5BanBnXkFtZTYwNTk0ODc0._V1_SX214_CR0,0,214,317_.jpg">http://ia.media-imdb.com/images/M/MV5BMTY1NjAzNzE1MV5BMl5BanBnXkFtZTYwNTk0ODc0._V1_SX214_CR0,0,214,317_.jpg</a></td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</body>
+</html>

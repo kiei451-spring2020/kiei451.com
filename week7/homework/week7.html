@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KIEI-451: Week 7 Homework Instructions</title>
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism.min.css" rel="stylesheet" type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/line-numbers/prism-line-numbers.min.css"
+    rel="stylesheet" type="text/css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/prism.min.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+</head>
+
+<body class="p-8 line-numbers">
+  <div class="container mx-auto">
+    <h1 class="text-4xl my-4">Week 7 Homework</h1>
+    <div class="space-y-4">
+      <p>Finish the Kellogg course reviews API we started in the lab this week.</p>
+      <h3 class="text-xl font-bold">Getting Started</h3>
+      <p>Begin by heading over to <a href="https://github.com/kiei451-spring2021/hw7" class="text-pink-500 underline">the starter project</a> – select "Use this template", then create a repository in your own GitHub account called <span class="bg-orange-100 text-red-400 font-mono p-1">hw7</span>. Clone this project and open it in VSCode.</p>
+      <p>Open a VSCode Terminal and (making sure you're in the right project directory) type <span class="bg-orange-100 text-red-400 font-mono p-1">npm install</span> – <strong>don't skip this step!</strong> – this will install all the necessary software needed to run the back-end application. Then, type <span class="bg-orange-100 text-red-400 font-mono p-1">netlify dev</span> to start the back-end server.</p>
+      <p>In <span class="bg-orange-100 text-red-400 font-mono p-1">/netlify/functions/firebase.js</span>, replace the Firebase configuration from your own project, which can be found in your Firebase project settings.</p>
+      <p>You'll find a possible solution for the lab as a starting point. See the domain model in the code comments, and make sure that your own Firestore database mirrors this structure. Then, open the code for the lambda function, located in <span class="bg-orange-100 text-red-400 font-mono p-1">/netlify/functions/courses.js</span> and get coding!</p>
+
+      <h3 class="text-xl font-bold">The Goal</h3>
+      <p>
+        An API endpoint that lives at <span class="bg-orange-100 text-red-400 font-mono p-1">/.netlify/functions/courses</span> that provides data on a course and its lecturers and reviews. Finish what we started during the lab, by adding reviews for each section, as well as a number of reviews and an aggregate rating for each course and each of their sections.
+      </p>
+      <h3 class="text-xl font-bold">Rubric</h3>
+      <ol class="list-decimal list-inside">
+        <li>(1 points) Write the recipe (algorithm) for your approach in the comments. Do this first!</li>
+        <li>(3 points) Add the reviews for each section to the result.</li>
+        <li>(3 points) Add the aggregated number of reviews and average rating for the course</li>
+        <li>(3 points) Add the aggregated number of reviews and average rating for each section of the course</li>
+      </ol>
+      <h3 class="text-xl font-bold">Guidelines for Submission</h3>
+      <p>All your work should take place in <span class="bg-orange-100 text-red-400 font-mono p-1">/netlify/functions/courses.js</span>; i.e. that should be the only file that's modified from the original project template. Your finished product should live in your GitHub account at <span class="bg-orange-100 text-red-400 font-mono p-1">https://github.com/&lt;your GitHub username&gt;/hw7</span>, and <strong>this URL should be submitted as the "website URL" for this assignment in Canvas.</strong></p>
+    </div>
+  </div>
+</body>
+
+</html>
