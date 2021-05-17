@@ -1,5 +1,6 @@
 let firebase = require('./firebase')
 
+// create message API (week 8)
 // /.netlify/functions/create_message?userName=Brian&body=Hello
 exports.handler = async function(event) {
   let userName = event.queryStringParameters.userName
