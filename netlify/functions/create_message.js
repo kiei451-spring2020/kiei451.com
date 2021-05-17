@@ -19,7 +19,7 @@ exports.handler = async function(event) {
       created: firebase.firestore.FieldValue.serverTimestamp()
     })
 
-    let messagesQuery = await db.collection('messages').orderBy('created').get()
+    let messagesQuery = await db.collection('messages').orderBy('created', 'desc').get()
     let messages = messagesQuery.docs
     let messagesToReturn = []
     for (let i=0; i < messages.length; i++) {
